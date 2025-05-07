@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class System {
+public class MySystem {
     private List<User> users;
     private List<Supplier> suppliers;
     private List<Product> products;
     private Stock stock;
 
-    public System(){
+    public MySystem(){
         users = new ArrayList<>();
         suppliers = new ArrayList<>();
         products = new ArrayList<>();
@@ -19,11 +19,7 @@ public class System {
     }
 
     public void showMenu(User user){
-        if(user.isAdmin()){
-            // showMenu
-        } else{
-            // showMenu
-        }
+
     }
 
     public void registerSupplier(Supplier supplier){

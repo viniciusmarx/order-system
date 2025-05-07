@@ -1,14 +1,14 @@
 public class InventoryProduct {
-    private int productId;
+    private Product product;
     private int quantity;
 
-    public InventoryProduct(int productId, int quantity){
-        this.productId = productId;
+    public InventoryProduct(Product product, int quantity){
+        this.product = product;
         this.quantity = quantity;
     }
 
     public int getProductId(){
-        return productId;
+        return product.getId();
     }
 
     public int getQuantity(){

@@ -1,14 +1,20 @@
-public class Supplier {
-    private static int idCount = 1;
-    private int id;
-    private String name;
+public class Supplier extends User {
     private String cnpj;
-    private Address address;
+    private String description;
 
-    public Supplier(String name, String cnpj, Address address){
-        this.id = idCount++;
-        this.name = name;
+    public Supplier(String name, String email, String phoneNumber, Address address, String description){
+        super(name, email, phoneNumber, address);
         this.cnpj = cnpj;
-        this.address = address;
+        this.description = description;
+    }
+
+    public Supplier(String name, String email, String phoneNumber, Address address){
+        super(name, email, phoneNumber, address);
+        this.cnpj = cnpj;
+    }
+    @Override
+    public String toString(){
+        String string = super.toString();
+        return string + String.format("CNPJ: %s \n Descrição: %s \n", cnpj, description) + getAddress();
     }
 }

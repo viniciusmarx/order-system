@@ -1,30 +1,33 @@
-public class User {
-    private String username;
-    private String password;
-    private UserRole role;
+public abstract class User {
+    private String name;
+    private String email;
+    private String phoneNumber;
+    private Address address;
 
-    public enum UserRole{
-        ADMIN, USER
-    }
-    public User(String username, String password, UserRole role){
-        this.username = username;
-        this.password = password;
-        this.role = role;
-    }
-
-    public boolean authenticate(String password){
-        return this.password.equals(password);
+    public User(String name, String email, String phoneNumber, Address address){
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
     }
 
-    public boolean isAdmin(){
-        return this.role == UserRole.ADMIN;
+    public String getName(){
+        return name;
     }
 
-    public String getUsername(){
-        return username;
+    public String getEmail(){
+        return email;
     }
 
-    public UserRole getRole(){
-        return this.role;
+    public String getPhoneNumber(){
+        return this.phoneNumber;
+    }
+
+    public String getAddress(){
+        return address.toString();
+    }
+
+    public String toString(){
+        return String.format("Nome: %s \nEmail: %s \nTelefone: %s \n", name, email, phoneNumber);
     }
 }

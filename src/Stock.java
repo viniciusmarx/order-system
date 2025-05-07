@@ -8,14 +8,14 @@ public class Stock {
         products = new ArrayList<>();
     }
 
-    public void addProduct(int productId, int quantity){
+    public void addProduct(Product newProduct, int quantity){
         for(InventoryProduct product : products){
-            if(product.getProductId() == productId){
+            if(product.getProductId() == newProduct.getId()){
                 product.setQuantity(product.getQuantity() + quantity);
                 return;
             }
         }
-        products.add(new InventoryProduct(productId, quantity));
+        products.add(new InventoryProduct(newProduct, quantity));
     }
 
     public int getQuantity(int productId){

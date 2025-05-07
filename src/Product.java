@@ -14,6 +14,9 @@ public class Product {
         this.supplier = supplier;
     }
 
+    public int getId(){
+        return id;
+    }
     public String getName(){
         return name;
     }
