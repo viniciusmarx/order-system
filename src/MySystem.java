@@ -14,8 +14,17 @@ public class MySystem {
         stock = new Stock();
     }
 
-    public void login(String username, String password){
-
+    public Boolean login(String username, String password){
+        for(User user : users){ // ajustar user quando trocar de lista para array
+            if(user.getEmail().equals(username) && 
+               user.getPassword().equals(password))
+            {
+                System.out.println("Login successful!");
+                return true;
+            }
+        }
+        System.out.println("Invalid username or password.");
+        return false;
     }
 
     public void showMenu(User user){
