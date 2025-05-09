@@ -5,7 +5,8 @@ public abstract class User {
     private String phoneNumber;
     private Address address;
 
-    public User(String name, String email, String password, String phoneNumber, Address address){
+    public User(String name, String email, String password, 
+                String phoneNumber, Address address){
         this.name = name;
         this.email = email;
         this.password = password;
