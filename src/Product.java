@@ -1,13 +1,11 @@
-import java.math.BigDecimal;
-
 public class Product {
     private static int idCount = 1;
     private int id;
     private String name;
-    private BigDecimal price;
+    private double price;
     private Supplier supplier;
 
-    public Product(String name, BigDecimal price, Supplier supplier){
+    public Product(String name, double price, Supplier supplier){
         this.id = idCount++;
         this.name = name;
         this.price = price;
@@ -25,11 +23,11 @@ public class Product {
         name = newName;
     }
 
-    public BigDecimal getPrice(){
+    public double getPrice(){
         return price;
     }
 
-    public void setPrice(BigDecimal newPrice){
+    public void setPrice(double newPrice){
         price = newPrice;
     }
 }
