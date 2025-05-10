@@ -7,8 +7,8 @@ public class Address {
     private String city;
     private String state;
 
-    public Address(String street, int number, String neighborhood, String zipCode,
-                   String city, String state) {
+    public Address(String street, int number, String neighborhood, 
+                   String zipCode, String city, String state) {
         this.street = street;
         this.number = number;
         this.neighborhood = neighborhood;
@@ -17,8 +17,8 @@ public class Address {
         this.state = state;
     }
 
-    public Address(String street, int number, String complement, String neighborhood, String zipCode,
-                   String city, String state) {
+    public Address(String street, int number, String complement, String neighborhood, 
+                   String zipCode, String city, String state) {
         this.street = street;
         this.number = number;
         this.complement = complement;

@@ -1,8 +1,9 @@
 public class Customer extends User{
     private String creditCard;
 
-    public Customer(String name, String email, String phoneNumber, Address address, String creditCard){
-        super(name, email, phoneNumber, address);
+    public Customer(String name, String email,  String password, 
+                    String phoneNumber, Address address, String creditCard){
+        super(name, email, password, phoneNumber, address);
         this.creditCard = creditCard;
     }
 
