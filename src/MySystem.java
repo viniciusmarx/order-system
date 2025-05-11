@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-
 public class MySystem {
     private List<User> users;
     private List<Supplier> suppliers;
@@ -14,21 +13,17 @@ public class MySystem {
         stock = new Stock();
     }
 
-    public Boolean login(String username, String password){
+    public User login(String username, String password){
         for(User user : users){ // ajustar user quando trocar de lista para array
             if(user.getEmail().equals(username) && 
                user.getPassword().equals(password))
             {
-                System.out.println("Login successful!");
-                return true;
+                System.out.println("Welcome " + user.getName() + "!");
+                return user;
             }
         }
         System.out.println("Invalid username or password.");
-        return false;
-    }
-
-    public void showMenu(User user){
-
+        return null;
     }
 
     public void registerSupplier(Supplier supplier){
