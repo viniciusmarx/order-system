@@ -4,6 +4,7 @@ public abstract class User {
     private String password;
     private String phoneNumber;
     private Address address;
+    private int role; // 0 = user, 1 = admin
 
     public User(String name, String email, String password, 
                 String phoneNumber, Address address){
@@ -12,6 +13,16 @@ public abstract class User {
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.address = address;
+    }
+
+    public User(String name, String email, String password, 
+                String phoneNumber, Address address, int role){
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.role = role;
     }
 
     public String getPassword(){
@@ -32,6 +43,10 @@ public abstract class User {
 
     public String getAddress(){
         return address.toString();
+    }
+
+    public int getRole(){
+        return this.role == 0 ? 0 : 1;
     }
 
     public String toString(){
