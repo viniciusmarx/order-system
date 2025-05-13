@@ -28,8 +28,9 @@ public class Address {
         this.state = state;
     }
 
+    @Override
     public String toString(){
         return String.format("Street: %s \nNumber: %d \nComplement: %s \nNeighborhood: %s \nZipCode: %s " +
-                             "\nCity: %s \nState: %s", street, neighborhood, city, state);
+                             "\nCity: %s \nState: %s", street, number, complement, neighborhood, zipCode, city, state);
     }
 }

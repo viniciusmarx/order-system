@@ -1,55 +1,28 @@
-public abstract class User {
+public class User {
     private String name;
     private String email;
     private String password;
-    private String phoneNumber;
-    private Address address;
-    private int role; // 0 = user, 1 = admin
+    private Role role; // 0 = user, 1 = admin
 
-    public User(String name, String email, String password, 
-                String phoneNumber, Address address){
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
+    public enum Role{
+        ADMIN, CUSTOMER
     }
-
-    public User(String name, String email, String password, 
-                String phoneNumber, Address address, int role){
+    public User(String name, String email,
+                String password, Role role){
         this.name = name;
         this.email = email;
         this.password = password;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
         this.role = role;
     }
+    public String getName(){ return name; }
 
-    public String getPassword(){
-        return password;
-    }
+    public String getEmail(){ return email; }
 
-    public String getName(){
-        return name;
-    }
+    public String getPassword(){ return password; }
 
-    public String getEmail(){
-        return email;
-    }
-
-    public String getPhoneNumber(){
-        return this.phoneNumber;
-    }
-
-    public String getAddress(){
-        return address.toString();
-    }
-
-    public int getRole(){
-        return this.role == 0 ? 0 : 1;
-    }
+    public Role getRole(){ return role; }
 
     public String toString(){
-        return String.format("Nome: %s \nEmail: %s \nTelefone: %s \n", name, email, phoneNumber);
+        return String.format("Nome: %s \nEmail: %s \nTipo: %s\n", name, email, role);
     }
 }

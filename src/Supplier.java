@@ -1,23 +1,37 @@
-public class Supplier extends User {
-    private String cnpj;
+public class Supplier{
+    private String name;
     private String description;
+    private String phoneNumber;
+    private String email;
+    private Address address;
 
-    public Supplier(String name, String email, String password, 
-                    String phoneNumber, Address address, String cnpj, String description){
-        super(name, email, password, phoneNumber, address);
-        this.cnpj = cnpj;
+    public Supplier(String name, String description, String phoneNumber, String email, Address address){
+        this.name = name;
         this.description = description;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.address = address;
     }
 
-    public Supplier(String name, String email, String password, 
-                    String phoneNumber, Address address, String cnpj){
-        super(name, email, password, phoneNumber, address);
-        this.cnpj = cnpj;
-    }
+    public String getName(){ return name; }
+
+    public String getDescription(){ return description; }
+
+    public String getPhoneNumber(){ return phoneNumber; }
+
+    public String getEmail(){ return email; }
+
+    public void setName(String name){ this.name = name; }
+
+    public void setDescription(String description){ this.description = description; }
+
+    public void setPhoneNumber(String phoneNumber){ this.phoneNumber = phoneNumber; }
+
+    public void setEmail(String email){ this.email = email; }
 
     @Override
     public String toString(){
-        String string = super.toString();
-        return string + String.format("CNPJ: %s \n Descrição: %s \n", cnpj, description) + getAddress();
+        String info = String.format("Nome: %s \nDescrição: %s \nTelefone: %s \nEmail: %s \n", name, description, phoneNumber, email);
+        return info + "Endereço: " + address;
     }
 }

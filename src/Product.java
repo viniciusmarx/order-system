@@ -1,33 +1,29 @@
 public class Product {
-    private static int idCount = 1;
-    private int id;
     private String name;
-    private double price;
+    private String description;
     private Supplier supplier;
+    private Stock stock;
 
-    public Product(String name, double price, Supplier supplier){
-        this.id = idCount++;
+    public Product(String name, String description, Supplier supplier, Stock stock){
         this.name = name;
-        this.price = price;
+        this.description = description;
         this.supplier = supplier;
+        this.stock = stock;
     }
 
-    public int getId(){
-        return id;
-    }
-    public String getName(){
-        return name;
-    }
+    public String getName(){ return name; }
 
-    public void setName(String newName){
-        name = newName;
-    }
+    public String getDescription(){ return  description; }
 
-    public double getPrice(){
-        return price;
-    }
+    public Supplier getSupplier(){ return supplier; }
 
-    public void setPrice(double newPrice){
-        price = newPrice;
-    }
+    public Stock getStock(){ return stock; }
+
+    public void setName(String name){ this.name = name; }
+
+    public void setDescription(String description){ this.description = description; }
+
+    public void setSupplier(Supplier supplier){ this.supplier = supplier; }
+
+    public void setStock(Stock stock){ this.stock = stock; }
 }

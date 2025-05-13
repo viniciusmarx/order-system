@@ -1,29 +1,20 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
 
 public class Stock {
-    private List<InventoryProduct> products;
+    private int quantity;
+    private BigDecimal price;
 
-    public Stock(){
-        products = new ArrayList<>();
+    public Stock(int quantity, BigDecimal price){
+        this.quantity = quantity;
+        this.price = price;
     }
 
-    public void addProduct(Product newProduct, int quantity){
-        for(InventoryProduct product : products){
-            if(product.getProductId() == newProduct.getId()){
-                product.setQuantity(product.getQuantity() + quantity);
-                return;
-            }
-        }
-        products.add(new InventoryProduct(newProduct, quantity));
-    }
+    public int getQuantity(){ return quantity; }
 
-    public int getQuantity(int productId){
-        for(InventoryProduct product : products){
-            if(product.getProductId() == productId){
-                return product.getQuantity();
-            }
-        }
-        return 0;
-    }
+    public BigDecimal getPrice(){ return price; }
+
+    public void setQuantity(int quantity){ this.quantity = quantity; }
+
+    public void setPrice(BigDecimal price){ this.price = price; }
+
 }
