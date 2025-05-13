@@ -30,7 +30,7 @@ public class Address {
 
     @Override
     public String toString(){
-        return String.format("Street: %s \nNumber: %d \nComplement: %s \nNeighborhood: %s \nZipCode: %s " +
-                             "\nCity: %s \nState: %s", street, number, complement, neighborhood, zipCode, city, state);
+        return String.format("Rua: %s \nNúmero: %d \nComplemento: %s \nBairro: %s \nCEP: %s " +
+                             "\nCidade: %s \nEstado: %s", street, number, complement, neighborhood, zipCode, city, state);
     }
 }

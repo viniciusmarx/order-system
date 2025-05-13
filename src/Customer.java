@@ -1,22 +1,28 @@
-public class Customer extends User{
+public class Customer{
+    private String name;
+    private String email;
+    private String phoneNumber;
     private String creditCard;
+    private Address address;
 
-    public Customer(String name, String email,  String password, 
-                    String phoneNumber, Address address, String creditCard){
-        super(name, email, password, phoneNumber, address);
+    public Customer(String name, String email,  String phoneNumber,
+                    String creditCard, Address address){
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
         this.creditCard = creditCard;
+        this.address = address;
     }
 
-    public String getCreditCard() {
-        return creditCard;
-    }
+    public String getName(){ return name; }
 
-    public void setCreditCard(String creditCard) {
-        this.creditCard = creditCard;
-    }
+    public String getEmail(){ return  email; }
 
-    @Override
-    public String toString(){
-        return super.toString() + getAddress();
-    }
+    public String getPhoneNumber(){ return phoneNumber; }
+
+    public String getCreditCard() { return creditCard; }
+
+    public Address getAddress(){ return address; }
+
+    public void setCreditCard(String creditCard) { this.creditCard = creditCard; }
 }
