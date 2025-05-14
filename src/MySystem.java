@@ -2,9 +2,9 @@ import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class MySystem {
-    private static User[] users = new User[100];
-    private static Customer[] customers = new Customer[100];
-    private static Supplier[] suppliers = new Supplier[100];
+    private static Admin[] admins = new Admin[10];
+    private static Customer[] customers = new Customer[10];
+    private static Supplier[] suppliers = new Supplier[10];
     private static Product[] products = new Product[100];
 
     private static int totalUsers = 0;
