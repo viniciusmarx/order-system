@@ -1,18 +1,18 @@
 import java.math.BigDecimal;
 import java.util.Scanner;
 
-public class MySystem {
-    private static Admin[] admins = new Admin[10];
-    private static Customer[] customers = new Customer[10];
-    private static Supplier[] suppliers = new Supplier[10];
-    private static Product[] products = new Product[100];
+public class Store {
+    private User[] users = new User[10];
+    private Customer[] customers = new Customer[10];
+    private Supplier[] suppliers = new Supplier[10];
+    private Product[] products = new Product[100];
 
-    private static int totalUsers = 0;
-    private static int totalCustomers = 0;
-    private static int totalSuppliers = 0;
-    private static int totalProducts = 0;
+    private int totalUsers = 0;
+    private int totalCustomers = 0;
+    private int totalSuppliers = 0;
+    private int totalProducts = 0;
 
-    public static void createNewAccount(Scanner sc){
+    public void createNewAccount(Scanner sc){
         System.out.println("--- Cadastro de Novo Usuário");
         System.out.println("Nome: ");
         String name = sc.nextLine();
@@ -26,24 +26,24 @@ public class MySystem {
         System.out.println("2 - Cliente");
         int role = Integer.parseInt(sc.nextLine());
 
-        User.Role userRole = (role == 1) ? User.Role.ADMIN : User.Role.CUSTOMER;
-        User newUser = new User(name, email, password, userRole);
-        addUser(newUser);
-
-        if(userRole == User.Role.CUSTOMER){
+        if(role == 2){
             System.out.println("Telefone: ");
             String phoneNumber = sc.nextLine();
             System.out.println("Cartão de crédito: ");
             String creditCard = sc.nextLine();
 
             Address address = createAddress(sc);
-            Customer customer = new Customer(name, email, phoneNumber, creditCard, address);
+            Customer customer = new Customer(name, email, password, phoneNumber, creditCard, address);
+            users[totalUsers++] = customer;
             customers[totalCustomers++] = customer;
+        } else{
+            User newUser = new User(name, email, password);
+            users[totalUsers++] = newUser;
         }
         System.out.println("Conta criada com sucesso!");
     }
 
-    public static User login(Scanner sc){
+    public User login(Scanner sc){
         System.out.println("--- LOGIN ---");
         System.out.println("Email: ");
         String email = sc.nextLine();
@@ -60,7 +60,7 @@ public class MySystem {
         return null;
     }
 
-    public static void menuAdmin(Scanner sc){
+    public void menuAdmin(Scanner sc){
         int option;
         do{
             System.out.println("\n--- MENU ADMIN ---");
@@ -81,7 +81,7 @@ public class MySystem {
         } while(option != 0);
     }
 
-    public static void menuCustomer(Scanner sc, User loggedUser){
+    public void menuCustomer(Scanner sc, Customer customer){
         int option;
         do{
             System.out.println("\n--- MENU CLIENTE ---");
@@ -93,14 +93,14 @@ public class MySystem {
 
             switch (option){
                 case 1 -> listProducts();
-                case 2 -> showCustomerData(loggedUser);
+                case 2 -> showCustomerData(customer);
                 case 0 -> System.out.println("Saindo do menu...");
                 default -> System.out.println("Opção inválida");
             }
         } while (option != 0);
     }
 
-    public static void registerSupplier(Scanner sc){
+    public void registerSupplier(Scanner sc){
         System.out.println("--- Cadastro de fornecedor ---");
         System.out.println("Nome: ");
         String name = sc.nextLine();
@@ -118,7 +118,7 @@ public class MySystem {
         System.out.println("Fornecedor cadastrado com sucesso!");
     }
 
-    public static void registerProduct(Scanner sc){
+    public void registerProduct(Scanner sc){
         if(totalSuppliers == 0){
             System.out.println("Nenhum fornecedor cadastrado. Cadastre um fornecedor primeiro");
             return;
@@ -150,7 +150,7 @@ public class MySystem {
         System.out.println("Produto cadstrado com sucesso!");
     }
 
-    public static void listProducts(){
+    public void listProducts(){
         System.out.println("--- Lista de Produtos ---");
         for(int i = 0; i < totalProducts; i++){
             Product p = products[i];
@@ -159,25 +159,15 @@ public class MySystem {
         }
     }
 
-    private static void showCustomerData(User user){
-        for(int i = 0; i < totalCustomers; i++){
-            if(customers[i].getEmail().equals(user.getEmail())){
-                Customer c = customers[i];
-                System.out.println("Nome: " + c.getName());
-                System.out.println("Telefone: " + c.getPhoneNumber());
-                System.out.println("Cartão: " + c.getCreditCard());
-                System.out.println("Endereço: " +  c.getAddress());
-                return;
-            }
-        }
-        System.out.println("Cliente não encontrado");
+    private void showCustomerData(Customer c){
+        System.out.println("Nome: " + c.getName());
+        System.out.println("Telefone: " + c.getPhoneNumber());
+        System.out.println("Cartão: " + c.getCreditCard());
+        System.out.println("Endereço: " +  c.getAddress());
+
     }
 
-    public static void addUser(User user){
-        users[totalUsers++] = user;
-    }
-
-    public static Address createAddress(Scanner sc){
+    public Address createAddress(Scanner sc){
         System.out.println("Endereço:");
         System.out.println("Rua: ");
         String street = sc.nextLine();
@@ -193,5 +183,14 @@ public class MySystem {
         String state = sc.nextLine();
 
         return new Address(street, number, complement, zipCode, city, state);
+    }
+
+    public void addUser(User newUser){
+        users[totalUsers++] = newUser;
+    }
+
+    public void addCustomer(Customer newCustomer){
+        users[totalUsers++] = newCustomer;
+        customers[totalCustomers++] = newCustomer;
     }
 }

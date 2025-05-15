@@ -2,9 +2,10 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
 
-        MySystem.addUser(new Admin("Admin", "admin@loja.com", "123"));
+        Store store = new Store();
+
+        Scanner sc = new Scanner(System.in);
 
         int option;
         User user = null;
@@ -18,8 +19,8 @@ public class Main {
             option = Integer.parseInt(sc.nextLine());
 
             switch (option){
-                case 1 -> user = MySystem.login(sc);
-                case 2 -> MySystem.createNewAccount(sc);
+                case 1 -> user = store.login(sc);
+                case 2 -> store.createNewAccount(sc);
                 case 0 -> {
                     System.out.println("Saindo...");
                     System.exit(0);
@@ -28,14 +29,12 @@ public class Main {
             }
         } while (option != 0 && user == null);
 
-        if(user.getRole() == User.Role.ADMIN){
-            MySystem.menuAdmin(sc);
+        if(user instanceof Customer){
+            Customer c = (Customer) user;
+            store.menuCustomer(sc, c);
         } else {
-            MySystem.menuCustomer(sc, user);
+            store.menuAdmin(sc);
         }
-
-
         sc.close();
     }
-
 }
