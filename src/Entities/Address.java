@@ -1,3 +1,5 @@
+package Entities;
+
 public class Address {
     private String street;
     private int number;

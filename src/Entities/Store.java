@@ -1,3 +1,5 @@
+package Entities;
+
 import java.math.BigDecimal;
 import java.util.Scanner;
 
@@ -58,27 +60,6 @@ public class Store {
         }
         System.out.println("Email ou senha inválidos");
         return null;
-    }
-
-    public void menuAdmin(Scanner sc){
-        int option;
-        do{
-            System.out.println("\n--- MENU ADMIN ---");
-            System.out.println("1. Cadastrar Fornecedor");
-            System.out.println("2. Cadastrar Produto");
-            System.out.println("3. Listar Produtos");
-            System.out.println("0. Sair");
-            System.out.println("Escolha uma opção");
-            option = Integer.parseInt(sc.nextLine());
-
-            switch (option){
-                case 1 -> registerSupplier(sc);
-                case 2 -> registerProduct(sc);
-                case 3 -> listProducts();
-                case 0 -> System.out.println("Saindo do menu...");
-                default -> System.out.println("Opção inválida");
-            }
-        } while(option != 0);
     }
 
     public void menuCustomer(Scanner sc, Customer customer){

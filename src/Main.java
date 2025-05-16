@@ -1,3 +1,9 @@
+import Entities.Customer;
+import Entities.Store;
+import Entities.User;
+import Menus.MainMenu;
+import Menus.MenuAdmin;
+
 import java.util.Scanner;
 
 public class Main {
@@ -11,12 +17,7 @@ public class Main {
         User user = null;
 
         do {
-            System.out.println("\n--- Bem-vindo ao sistema de loja ---");
-            System.out.println("1 - Login");
-            System.out.println("2 - Criar nova conta");
-            System.out.println("0 - Sair");
-            System.out.println("Escolha: ");
-            option = Integer.parseInt(sc.nextLine());
+            option = MainMenu.show(sc);
 
             switch (option){
                 case 1 -> user = store.login(sc);
@@ -27,13 +28,13 @@ public class Main {
                 }
                 default -> System.out.println("Opção inválida");
             }
-        } while (option != 0 && user == null);
+        } while (user == null);
 
         if(user instanceof Customer){
-            Customer c = (Customer) user;
-            store.menuCustomer(sc, c);
+            Customer customer = (Customer) user;
+            store.menuCustomer(sc, customer);
         } else {
-            store.menuAdmin(sc);
+            MenuAdmin.show(sc, store);
         }
         sc.close();
     }

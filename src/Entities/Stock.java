@@ -1,3 +1,5 @@
+package Entities;
+
 import java.math.BigDecimal;
 
 public class Stock {

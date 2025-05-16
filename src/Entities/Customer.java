@@ -1,4 +1,6 @@
-public class Customer extends User{
+package Entities;
+
+public class Customer extends User {
     private String phoneNumber;
     private String creditCard;
     private Address address;
