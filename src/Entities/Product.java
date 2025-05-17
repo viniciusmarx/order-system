@@ -7,10 +7,16 @@ public class Product {
     private Stock stock;
 
     public Product(String name, String description, Supplier supplier, Stock stock){
-        this.name = name;
-        this.description = description;
-        this.supplier = supplier;
-        this.stock = stock;
+        if (name == null || name.isEmpty()){System.out.println("Nome preenchido incorretamente");}
+        else if (description == null || description.isEmpty()){System.out.println("Descrição preenchida incorretamente");}
+        else if (supplier == null){System.out.println("Fornecedor não preenchido");}
+        else if (stock == null){System.out.println("Estoque não preenchido");}
+        else{
+            this.name = name;
+            this.description = description;
+            this.supplier = supplier;
+            this.stock = stock;
+        }
     }
 
     public String getName(){ return name; }
