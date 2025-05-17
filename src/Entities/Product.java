@@ -41,4 +41,10 @@ public class Product {
         if (stock == null){System.out.println("Estoque não preenchido");}
         else { this.stock = stock; }
     }
+
+    @Override
+    public String toString(){
+        return (" - " + this.getName() + this.getStock().getPrice() +
+                " Estoque: " + this.getStock().getQuantity() + "Fornecedor: " + this.getSupplier().getName());
+    }
 }

@@ -52,6 +52,12 @@ public class Store {
         System.out.print("Senha: ");
         String password = sc.nextLine();
 
+        for(int i = 0; i < totalCustomers; i++){
+            if(customers[i].getEmail().equals(email) && customers[i].getPassword().equals(password)){
+                System.out.println("Bem-vindo(a), " + customers[i].getName());
+                return customers[i];
+            }
+        }
         for(int i = 0; i < totalUsers; i++){
             if(users[i].getEmail().equals(email) && users[i].getPassword().equals(password)){
                 System.out.println("Bem-vindo(a), " + users[i].getName());
@@ -136,17 +142,27 @@ public class Store {
         System.out.println("--- Lista de Produtos ---");
         for(int i = 0; i < totalProducts; i++){
             Product p = products[i];
-            System.out.println((i + 1) + " - " + p.getName() + p.getStock().getPrice() +
-                " Estoque: " + p.getStock().getQuantity() + "Fornecedor: " + p.getSupplier().getName());
+            System.out.println(i+1);
+            System.out.println(p);
+            // System.out.println((i + 1) + " - " + p.getName() + p.getStock().getPrice() +
+            //     " Estoque: " + p.getStock().getQuantity() + "Fornecedor: " + p.getSupplier().getName());
         }
     }
 
-    private void showCustomerData(Customer c){
-        System.out.println("Nome: " + c.getName());
-        System.out.println("Telefone: " + c.getPhoneNumber());
-        System.out.println("Cartão: " + c.getCreditCard());
-        System.out.println("Endereço: " +  c.getAddress());
+    public void listSuppliers(){
+        System.out.println("--- Lista de Fornecedores ---");
+        for(int i = 0; i < totalSuppliers; i++){
+            Supplier s = suppliers[i];
+            System.out.println((i + 1) + " - " + s.getName() + " - " + s.getDescription());
+        }
+    }
 
+    public void showSupplierData(Supplier s){
+        System.out.println(s);
+    }
+
+    private void showCustomerData(Customer c){
+        System.out.println(c);
     }
 
     public Address createAddress(Scanner sc){
@@ -177,4 +193,36 @@ public class Store {
         users[totalUsers++] = newCustomer;
         customers[totalCustomers++] = newCustomer;
     }
+
+    public void addDBResources(){
+
+        //Suppliers
+        suppliers[totalSuppliers++] = new Supplier("FF Frutas", "Vendas diretas de frutas", "5399543421", "fffrutas@supp.com", 
+                                        new Address("Rua Fantasia", 12323, "", "Centro", "12345678", "São Paulo", "SP"));
+        suppliers[totalSuppliers++] = new Supplier("Carqueja", "Deposito de verduras e insumos para chá", "5399543421", "carq@yahoo.com", 
+                                        new Address("Rua ilusão", 456, "Fundos", "Tijuca", "87654321", "Rio de Janeiro", "RJ"));
+        suppliers[totalSuppliers++] = new Supplier("Canoas Yerbas", "Distribuidora de produtos naturais", "5399543421", "yerbcanoas@gmail.com", 
+                                        new Address("Rua do sol", 123, "Box 13", "Matias Velho", "12345678", "Canoas", "RS"));
+
+        //Customers
+        users[totalUsers++] = new User("Joao Pereira", "jpere@mail.com", "123456");
+        customers[totalCustomers++] = new Customer("Joao Pereira", "jpere@mail.com", "123456", "91122254", "9299321645312543", 
+                                        new Address("Cruz de Malta", 1205, "", "Interior", "93411000", "Araranguá", "PR"));
+
+
+        
+
+        //GENERIC USERS
+
+        // users[totalUsers++] = Customer customer = new Customer(name, email, password, phoneNumber, creditCard, address);
+        // customers[totalCustomers++] = Customer customer = new Customer(name, email, password, phoneNumber, creditCard, address);
+        users[totalUsers++] = new User("Customer", "cust@customer.com", "123123");
+        customers[totalCustomers++] =  new Customer("Customer", "cust@customer.com", "123123", "123456789", "1234567890123456", 
+                                        new Address("Customer", 001, "TESTE", "Customer", "12345678", "Customer City", "BR"));
+
+        // users[totalUsers++] = User newUser = new User(name, email, password);
+        users[totalUsers++] = new User("Admin", "admin@admin.com" , "123123");
+        
+        
+ }
 }

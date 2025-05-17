@@ -48,9 +48,9 @@ public class MenuAdmin {
                         return;
                     }
                     case 1 -> store.registerSupplier(sc);
-//                case 2 -> store.updateSupplier(sc); toDo
-//                case 3 -> store.removeSupplier(sc); toDo
-//                case 4 -> store.listSuppliers(); toDo
+//                  case 2 -> store.updateSupplier(sc); toDo
+//                  case 3 -> store.removeSupplier(sc); toDo
+                    case 4 -> store.listSuppliers();
                     default -> System.out.println("Opção inválida");
                 }
             } while (true);

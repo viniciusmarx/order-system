@@ -50,6 +50,6 @@ public class Supplier{
     @Override
     public String toString(){
         String info = String.format("Nome: %s \nDescrição: %s \nTelefone: %s \nEmail: %s \n", name, description, phoneNumber, email);
-        return info + "Endereço: " + address;
+        return info + "Endereço: \n" + address;
     }
 }

@@ -9,7 +9,7 @@ public class Customer extends User {
                     String phoneNumber, String creditCard, Address address){
         super(name, email, password);
         if (phoneNumber == null || phoneNumber.isEmpty() || 
-            phoneNumber.length() < 10){System.out.println("Número de telefone inválido");}
+            phoneNumber.length() > 10){System.out.println("Número de telefone inválido");}
         else if (creditCard == null || creditCard.isEmpty() || 
                  creditCard.length() < 16){System.out.println("Número de cartão de crédito inválido");}
         else if (address == null){System.out.println("Endereço não preenchido");}
@@ -28,5 +28,12 @@ public class Customer extends User {
         if (creditCard == null || creditCard.isEmpty() || 
             creditCard.length() < 16){System.out.println("Número de cartão de crédito inválido");}
         else{this.creditCard = creditCard;}
+    }
+
+    @Override
+    public String toString(){
+        String info = super.toString();
+        info += String.format("Telefone: %s \nCartão de crédito: %s \n", phoneNumber, creditCard);
+        return info + "Endereço: \n" + address;
     }
 }
