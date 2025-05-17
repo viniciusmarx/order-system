@@ -24,7 +24,7 @@ public class MenuAdmin {
             System.out.println("2. Produtos");
             System.out.println("3. Estoque");
             System.out.println("0. Sair");
-            System.out.println("Escolha uma opção");
+            System.out.print("Escolha uma opção: ");
             option = Integer.parseInt(sc.nextLine());
 
             switch (option){
@@ -91,7 +91,7 @@ public class MenuAdmin {
             System.out.printf("%d. %s\n", i + 1, options[i]);
         }
         System.out.println("0. Voltar");
-        System.out.println("Escolha uma opção");
+        System.out.print("Escolha uma opção: ");
         return Integer.parseInt(sc.nextLine());
     }
 }

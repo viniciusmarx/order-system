@@ -16,22 +16,23 @@ public class Store {
 
     public void createNewAccount(Scanner sc){
         System.out.println("--- Cadastro de Novo Usuário");
-        System.out.println("Nome: ");
+        System.out.print("Nome: ");
         String name = sc.nextLine();
-        System.out.println("Email: ");
+        System.out.print("Email: ");
         String email = sc.nextLine();
-        System.out.println("Senha: ");
+        System.out.print("Senha: ");
         String password = sc.nextLine();
 
-        System.out.println("Tipo de conta: ");
+        System.out.println("- Tipo de conta - ");
         System.out.println("1 - Admin");
         System.out.println("2 - Cliente");
+        System.out.print("Escolha: ");
         int role = Integer.parseInt(sc.nextLine());
 
         if(role == 2){
-            System.out.println("Telefone: ");
+            System.out.print("Telefone: ");
             String phoneNumber = sc.nextLine();
-            System.out.println("Cartão de crédito: ");
+            System.out.print("Cartão de crédito: ");
             String creditCard = sc.nextLine();
 
             Address address = createAddress(sc);
@@ -47,9 +48,9 @@ public class Store {
 
     public User login(Scanner sc){
         System.out.println("--- LOGIN ---");
-        System.out.println("Email: ");
+        System.out.print("Email: ");
         String email = sc.nextLine();
-        System.out.println("Senha: ");
+        System.out.print("Senha: ");
         String password = sc.nextLine();
 
         for(int i = 0; i < totalUsers; i++){
@@ -69,7 +70,7 @@ public class Store {
             System.out.println("1. Ver produtos disponíveis");
             System.out.println("2. Ver meus dados");
             System.out.println("0. Sair");
-            System.out.println("Escolha uma opção: ");
+            System.out.print("Escolha uma opção: ");
             option = Integer.parseInt(sc.nextLine());
 
             switch (option){
@@ -83,13 +84,13 @@ public class Store {
 
     public void registerSupplier(Scanner sc){
         System.out.println("--- Cadastro de fornecedor ---");
-        System.out.println("Nome: ");
+        System.out.print("Nome: ");
         String name = sc.nextLine();
-        System.out.println("Descrição: ");
+        System.out.print("Descrição: ");
         String description = sc.nextLine();
-        System.out.println("Telefone: ");
+        System.out.print("Telefone: ");
         String phoneNumber = sc.nextLine();
-        System.out.println("Email: ");
+        System.out.print("Email: ");
         String email = sc.nextLine();
 
         Address address = createAddress(sc);
@@ -106,23 +107,24 @@ public class Store {
         }
 
         System.out.println("--- Cadastro de Produto ---");
-        System.out.println("Nome: ");
+        System.out.print("Nome: ");
         String name = sc.nextLine();
-        System.out.println("Description: ");
+        System.out.print("Description: ");
         String description = sc.nextLine();
 
-        System.out.println("Escolha um fornecedor:");
+        System.out.println("Lista de Fornecedores: ");
         for(int i = 0; i < totalSuppliers; i++){
             System.out.println((i + 1) + " - " + suppliers[i].getName());
         }
 
+        System.out.print("Escolha um fornecedor:");
         int idSupplier = Integer.parseInt(sc.nextLine()) - 1;
         Supplier supplier = suppliers[idSupplier];
 
-        System.out.println("Quantidade em estoque: ");
+        System.out.print("Quantidade em estoque: ");
         int quantity = Integer.parseInt(sc.nextLine());
 
-        System.out.println("Preço unitário: ");
+        System.out.print("Preço unitário: ");
         BigDecimal price = new BigDecimal(sc.nextLine());
 
         Stock stock = new Stock(quantity, price);
@@ -149,18 +151,18 @@ public class Store {
     }
 
     public Address createAddress(Scanner sc){
-        System.out.println("Endereço:");
-        System.out.println("Rua: ");
+        System.out.println("Endereço: ");
+        System.out.print("Rua: ");
         String street = sc.nextLine();
-        System.out.println("Número: ");
+        System.out.print("Número: ");
         int number = Integer.parseInt(sc.nextLine());
-        System.out.println("Complemento: ");
+        System.out.print("Complemento: ");
         String complement = sc.nextLine();
-        System.out.println("CEP: ");
+        System.out.print("CEP: ");
         String zipCode = sc.nextLine();
-        System.out.println("Cidade: ");
+        System.out.print("Cidade: ");
         String city = sc.nextLine();
-        System.out.println("State: ");
+        System.out.print("Estado: ");
         String state = sc.nextLine();
 
         return new Address(street, number, complement, zipCode, city, state);
