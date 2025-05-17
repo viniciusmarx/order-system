@@ -50,6 +50,8 @@ public class MenuAdmin {
                     case 1 -> store.registerSupplier(sc);
 //                case 2 -> store.updateSupplier(sc); toDo
 //                case 3 -> store.removeSupplier(sc); toDo
+//                case 4 -> store.listSuppliers(); toDo
+                    default -> System.out.println("Opção inválida");
                 }
             } while (true);
     }
@@ -87,6 +89,7 @@ public class MenuAdmin {
     }
 
     private static int menuOptions(String[] options, Scanner sc){
+        System.out.println("------------------------------------");
         for(int i = 0; i < options.length; i++){
             System.out.printf("%d. %s\n", i + 1, options[i]);
         }

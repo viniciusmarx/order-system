@@ -43,7 +43,6 @@ public class Store {
             User newUser = new User(name, email, password);
             users[totalUsers++] = newUser;
         }
-        System.out.println("Conta criada com sucesso!");
     }
 
     public User login(Scanner sc){
@@ -151,7 +150,7 @@ public class Store {
     }
 
     public Address createAddress(Scanner sc){
-        System.out.println("Endereço: ");
+        System.out.println("- Endereço -");
         System.out.print("Rua: ");
         String street = sc.nextLine();
         System.out.print("Número: ");
@@ -162,10 +161,12 @@ public class Store {
         String zipCode = sc.nextLine();
         System.out.print("Cidade: ");
         String city = sc.nextLine();
+        System.out.print("Bairro: ");
+        String neighborhood = sc.nextLine();
         System.out.print("Estado: ");
         String state = sc.nextLine();
 
-        return new Address(street, number, complement, zipCode, city, state);
+        return new Address(street, number, complement, zipCode, city, neighborhood, state);
     }
 
     public void addUser(User newUser){

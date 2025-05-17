@@ -14,18 +14,25 @@ public class Product {
     }
 
     public String getName(){ return name; }
-
     public String getDescription(){ return  description; }
-
     public Supplier getSupplier(){ return supplier; }
-
     public Stock getStock(){ return stock; }
 
-    public void setName(String name){ this.name = name; }
 
-    public void setDescription(String description){ this.description = description; }
-
-    public void setSupplier(Supplier supplier){ this.supplier = supplier; }
-
-    public void setStock(Stock stock){ this.stock = stock; }
+    public void setName(String name){
+        if(name == null || name.isEmpty()){System.out.println("Nome preenchido incorretamente");} 
+        else { this.name = name; }
+    }
+    public void setDescription(String description){ 
+        if (description == null || description.isEmpty()){System.out.println("Descrição preenchida incorretamente");}
+        else { this.description = description; }
+    }
+    public void setSupplier(Supplier supplier){
+        if (supplier == null){System.out.println("Fornecedor não preenchido");}
+        else { this.supplier = supplier; }
+    }
+    public void setStock(Stock stock){ 
+        if (stock == null){System.out.println("Estoque não preenchido");}
+        else { this.stock = stock; }
+    }
 }
