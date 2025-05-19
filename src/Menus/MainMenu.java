@@ -9,7 +9,7 @@ public class MainMenu {
         System.out.println("1 - Login");
         System.out.println("2 - Criar nova conta");
         System.out.println("0 - Sair");
-        System.out.println("Escolha: ");
+        System.out.print("Escolha: ");
         return Integer.parseInt(sc.nextLine());
     }
 }

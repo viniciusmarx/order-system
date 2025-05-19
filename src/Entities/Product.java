@@ -1,31 +1,71 @@
 package Entities;
 
+import Utils.ValidationUtils;
+
 public class Product {
+    private static int nextId = 1;
+    private int id;
     private String name;
     private String description;
     private Supplier supplier;
     private Stock stock;
 
-    public Product(String name, String description, Supplier supplier, Stock stock){
+    public Product() {
+        this.id = nextId++;
+    }
+
+    public Product(int id, String name, String description, Supplier supplier, Stock stock) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.supplier = supplier;
         this.stock = stock;
     }
 
-    public String getName(){ return name; }
+    public int getId() {
+        return id;
+    }
 
-    public String getDescription(){ return  description; }
+    public String getName() {
+        return name;
+    }
 
-    public Supplier getSupplier(){ return supplier; }
+    public String getDescription() {
+        return description;
+    }
 
-    public Stock getStock(){ return stock; }
+    public Supplier getSupplier() {
+        return supplier;
+    }
 
-    public void setName(String name){ this.name = name; }
+    public Stock getStock() {
+        return stock;
+    }
 
-    public void setDescription(String description){ this.description = description; }
+    public void setName(String name) {
+        ValidationUtils.validateRequiredString(name, "Nome");
+        this.name = name;
+    }
 
-    public void setSupplier(Supplier supplier){ this.supplier = supplier; }
+    public void setDescription(String description) {
+        ValidationUtils.validateRequiredString(name, "Descrição");
+        this.description = description;
+    }
 
-    public void setStock(Stock stock){ this.stock = stock; }
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
+    }
+
+    public void setStock(Stock stock) {
+        this.stock = stock;
+    }
+
+    @Override
+    public String toString() {
+        return ("ID: " + id +
+                "\nNome: " + name + " Descrição: " + description +
+                "\nPreço: " + stock.getPrice() +
+                "\nEstoque: " + stock.getQuantity() +
+                "\nFornecedor: " + supplier.getName());
+    }
 }
