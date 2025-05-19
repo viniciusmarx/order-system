@@ -3,6 +3,7 @@ import Entities.Store;
 import Entities.User;
 import Menus.MainMenu;
 import Menus.MenuAdmin;
+import Menus.MenuCustomer;
 
 import java.util.Scanner;
 
@@ -14,14 +15,13 @@ public class Main {
 
         Scanner sc = new Scanner(System.in);
 
-
         int option;
         User user = null;
 
         do {
             option = MainMenu.show(sc);
 
-            switch (option){
+            switch (option) {
                 case 1 -> user = store.login(sc);
                 case 2 -> store.createNewAccount(sc);
                 case 0 -> {
@@ -32,9 +32,9 @@ public class Main {
             }
         } while (user == null);
 
-        if(user instanceof Customer){
+        if (user instanceof Customer) {
             Customer customer = (Customer) user;
-            store.menuCustomer(sc, customer);
+            MenuCustomer.show(sc, customer, store);
         } else {
             MenuAdmin.show(sc, store);
         }

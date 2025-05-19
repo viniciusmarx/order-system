@@ -1,50 +1,71 @@
 package Entities;
 
+import Utils.ValidationUtils;
+
 public class Product {
+    private static int nextId = 1;
+    private int id;
     private String name;
     private String description;
     private Supplier supplier;
     private Stock stock;
 
-    public Product(String name, String description, Supplier supplier, Stock stock){
-        if (name == null || name.isEmpty()){System.out.println("Nome preenchido incorretamente");}
-        else if (description == null || description.isEmpty()){System.out.println("Descrição preenchida incorretamente");}
-        else if (supplier == null){System.out.println("Fornecedor não preenchido");}
-        else if (stock == null){System.out.println("Estoque não preenchido");}
-        else{
-            this.name = name;
-            this.description = description;
-            this.supplier = supplier;
-            this.stock = stock;
-        }
+    public Product() {
+        this.id = nextId++;
     }
 
-    public String getName(){ return name; }
-    public String getDescription(){ return  description; }
-    public Supplier getSupplier(){ return supplier; }
-    public Stock getStock(){ return stock; }
+    public Product(int id, String name, String description, Supplier supplier, Stock stock) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.supplier = supplier;
+        this.stock = stock;
+    }
 
+    public int getId() {
+        return id;
+    }
 
-    public void setName(String name){
-        if(name == null || name.isEmpty()){System.out.println("Nome preenchido incorretamente");} 
-        else { this.name = name; }
+    public String getName() {
+        return name;
     }
-    public void setDescription(String description){ 
-        if (description == null || description.isEmpty()){System.out.println("Descrição preenchida incorretamente");}
-        else { this.description = description; }
+
+    public String getDescription() {
+        return description;
     }
-    public void setSupplier(Supplier supplier){
-        if (supplier == null){System.out.println("Fornecedor não preenchido");}
-        else { this.supplier = supplier; }
+
+    public Supplier getSupplier() {
+        return supplier;
     }
-    public void setStock(Stock stock){ 
-        if (stock == null){System.out.println("Estoque não preenchido");}
-        else { this.stock = stock; }
+
+    public Stock getStock() {
+        return stock;
+    }
+
+    public void setName(String name) {
+        ValidationUtils.validateRequiredString(name, "Nome");
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        ValidationUtils.validateRequiredString(name, "Descrição");
+        this.description = description;
+    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
+    }
+
+    public void setStock(Stock stock) {
+        this.stock = stock;
     }
 
     @Override
-    public String toString(){
-        return (" - " + this.getName() + this.getStock().getPrice() +
-                " Estoque: " + this.getStock().getQuantity() + "Fornecedor: " + this.getSupplier().getName());
+    public String toString() {
+        return ("ID: " + id +
+                "\nNome: " + name + " Descrição: " + description +
+                "\nPreço: " + stock.getPrice() +
+                "\nEstoque: " + stock.getQuantity() +
+                "\nFornecedor: " + supplier.getName());
     }
 }

@@ -1,55 +1,77 @@
 package Entities;
 
-public class Supplier{
+import Utils.ValidationUtils;
+
+public class Supplier {
     private String name;
     private String description;
     private String phoneNumber;
     private String email;
     private Address address;
 
-    public Supplier(String name, String description, String phoneNumber, String email, Address address){
+    public Supplier() {
+    }
 
-        if(name == null || name.isEmpty()){System.out.println("Nome preenchido incorretamente");}
-        else if (description == null || description.isEmpty()){System.out.println("Descriçao preenchida incorretamente");}
-        else if (phoneNumber == null || phoneNumber.isEmpty() || phoneNumber.length() < 10){System.out.println("Numero de telefone preenchido incorretamente");}
-        else if (email == null || email.isEmpty() || !(email.endsWith(".com") || email.contains("@"))){System.out.println("Email preenchido incorretamente");}
-        else if (address == null){System.out.println("Endereço não preenchido");}
-        else{
-            this.name = name;
-            this.description = description;
-            this.phoneNumber = phoneNumber;
-            this.email = email;
-            this.address = address;
+    public Supplier(String name, String description, String phoneNumber, String email, Address address) {
+        this.name = name;
+        this.description = description;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.address = address;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setName(String name) {
+        ValidationUtils.validateRequiredString(name, "Nome");
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        ValidationUtils.validateRequiredString(description, "Descrição");
+        this.description = description;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        ValidationUtils.validateRequiredString(phoneNumber, "Telefone");
+        if (phoneNumber.length() < 10) {
+            throw new IllegalArgumentException("Número de telefone inválido");
         }
+        this.phoneNumber = phoneNumber;
     }
 
-    public String getName(){ return name; }
-    public String getDescription(){ return description; }
-    public String getPhoneNumber(){ return phoneNumber; }
-    public String getEmail(){ return email; }
+    public void setEmail(String email) {
+        ValidationUtils.validateRequiredString(email, "Email");
+        if (!(email.endsWith(".com") || email.contains("@"))) {
+            throw new IllegalArgumentException("Email inválido");
+        }
+        this.email = email;
+    }
 
-    public void setName(String name){ 
-        if (name == null || (name.isEmpty())){System.out.println("O nome deve ser preenchido");}
-        else{this.name = name;}
-    }
-    public void setDescription(String description){ 
-        if (description == null || description.isEmpty()){System.out.println("Descrição não pode ser vazia");}
-        else{this.description = description;}
-    }
-    public void setPhoneNumber(String phoneNumber){ 
-        if (phoneNumber == null || phoneNumber.isEmpty() &&
-            phoneNumber.length() < 10){System.out.println("Número de telefone inválido");}
-        else{this.phoneNumber = phoneNumber;}
-    }
-    public void setEmail(String email){
-        if (email == null || email.isEmpty() ||
-            !(email.endsWith(".com") || email.contains("@"))){System.out.println("Email inválido ou não inserido");}
-        else{this.email = email;} 
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     @Override
-    public String toString(){
-        String info = String.format("Nome: %s \nDescrição: %s \nTelefone: %s \nEmail: %s \n", name, description, phoneNumber, email);
-        return info + "Endereço: \n" + address;
+    public String toString() {
+        return ("Nome: " + name +
+                "\nDescrição: " + description +
+                "\nTelefone: " + phoneNumber +
+                "\nEmail: " + email +
+                "\n - Endereço\n" + address);
     }
 }
