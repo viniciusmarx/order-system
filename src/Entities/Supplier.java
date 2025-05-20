@@ -36,6 +36,10 @@ public class Supplier {
         return email;
     }
 
+    public Address getAddress(){
+        return address;
+    }
+
     public void setName(String name) {
         ValidationUtils.validateRequiredString(name, "Nome");
         this.name = name;
@@ -48,15 +52,15 @@ public class Supplier {
 
     public void setPhoneNumber(String phoneNumber) {
         ValidationUtils.validateRequiredString(phoneNumber, "Telefone");
-        if (phoneNumber.length() < 10) {
-            throw new IllegalArgumentException("Número de telefone inválido");
+        if (!phoneNumber.matches("\\d{10,11}")) {
+            throw new IllegalArgumentException("Telefone deve conter 10 ou 11 dígitos númericos");
         }
         this.phoneNumber = phoneNumber;
     }
 
     public void setEmail(String email) {
         ValidationUtils.validateRequiredString(email, "Email");
-        if (!(email.endsWith(".com") || email.contains("@"))) {
+        if (!email.contains(".") || !email.contains("@")) {
             throw new IllegalArgumentException("Email inválido");
         }
         this.email = email;

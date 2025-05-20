@@ -14,7 +14,7 @@ public class MenuAdmin {
             "Cadastrar Produto", "Alterar Produto", "Remover Produto", "Listar Produtos"
     };
     private static String[] stockOptions = {
-            "Visualizar todo estoque", "Visualizar estoque de um produto"
+            "Visualizar todo estoque"
     };
 
     public static void show(Scanner sc, Store store) {
@@ -96,8 +96,7 @@ public class MenuAdmin {
                 case 0 -> {
                     return;
                 }
-//                case 1 -> store.viewAllStock(); toDo
-//                case 2 -> store.viewProductStock(sc); toDo
+                case 1 -> store.viewAllStock();
                 default -> System.out.println("Opção inválida");
             }
         } while (true);

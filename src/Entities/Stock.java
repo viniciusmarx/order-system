@@ -7,14 +7,8 @@ public class Stock {
     private BigDecimal price;
 
     public Stock(int quantity, BigDecimal price) {
-        if (quantity < 0) {
-            System.out.println("Quantidade preenchida incorretamente");
-        } else if (price.compareTo(price) < 0) {
-            System.out.println("Preço preenchido incorretamente");
-        } else {
-            this.quantity = quantity;
-            this.price = price;
-        }
+        setQuantity(quantity);
+        setPrice(price);
     }
 
     public int getQuantity() {
@@ -27,17 +21,20 @@ public class Stock {
 
     public void setQuantity(int quantity) {
         if (quantity < 0) {
-            System.out.println("Quantidade preenchida incorretamente");
-        } else {
-            this.quantity = quantity;
+            throw new IllegalArgumentException("Quantidade não pode ser negativa");
         }
+        this.quantity = quantity;
     }
 
     public void setPrice(BigDecimal price) {
-        if (price.compareTo(price) < 0) {
-            System.out.println("Preço preenchido incorretamente");
-        } else {
-            this.price = price;
+        if (price == null || price.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Preço deve ser maior ou igual a zero");
         }
+        this.price = price;
+    }
+
+    @Override
+    public String toString(){
+        return "Quantidade: " + quantity + ", Preço: " + price;
     }
 }

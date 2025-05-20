@@ -16,27 +16,34 @@ public class Main {
         Scanner sc = new Scanner(System.in);
 
         int option;
-        User user = null;
 
-        do {
-            option = MainMenu.show(sc);
+        while (true) {
+            User user = null;
+            do {
+                option = MainMenu.show(sc);
 
-            switch (option) {
-                case 1 -> user = store.login(sc);
-                case 2 -> store.createNewAccount(sc);
-                case 0 -> {
-                    System.out.println("Saindo...");
-                    System.exit(0);
+                switch (option) {
+                    case 1 -> user = store.login(sc);
+                    case 2 -> store.createNewAccount(sc);
+                    case 0 -> {
+                        System.out.println("Saindo...");
+                        System.exit(0);
+                    }
+                    default -> System.out.println("Opção inválida");
                 }
-                default -> System.out.println("Opção inválida");
-            }
-        } while (user == null);
+            } while (user == null);
 
-        if (user instanceof Customer) {
-            Customer customer = (Customer) user;
-            MenuCustomer.show(sc, customer, store);
-        } else {
-            MenuAdmin.show(sc, store);
+            if (user instanceof Customer c) {
+                MenuCustomer.show(sc, c, store);
+            } else {
+                MenuAdmin.show(sc, store);
+            }
+
+            System.out.println("Deseja fazer login com outro usuário? (s/n)");
+            String again = sc.nextLine();
+            if (!again.equalsIgnoreCase("s")) {
+                break;
+            }
         }
         sc.close();
     }

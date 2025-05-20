@@ -29,28 +29,30 @@ public class Customer extends User {
 
     public void setPhoneNumber(String phoneNumber) {
         ValidationUtils.validateRequiredString(phoneNumber, "Telefone");
-        if (phoneNumber.length() > 11) {
-            throw new IllegalArgumentException("Número de telefone não pode ter mais que 11 digitos");
+        if (!phoneNumber.matches("\\d{10,11}")) {
+            throw new IllegalArgumentException("Telefone deve conter 10 ou 11 dígitos numéricos");
         }
         this.phoneNumber = phoneNumber;
     }
 
     public void setCreditCard(String creditCard) {
         ValidationUtils.validateRequiredString(creditCard, "Cartão de crédito");
-        if (creditCard.length() < 16) {
-            throw new IllegalArgumentException("Número de cartão de crédito precisa ter 16 digitos");
+        if (!creditCard.matches("\\d{16}")) {
+            throw new IllegalArgumentException("Cartão de crédito deve conter exatamente 16 dígitos númericos");
         }
         this.creditCard = creditCard;
     }
 
     public void setAddress(Address address) {
+        if (address == null) {
+            throw new IllegalArgumentException("Endereço não pode ser nulo");
+        }
         this.address = address;
     }
 
     @Override
     public String toString() {
-        String info = super.toString();
-        info += String.format("Telefone: %s \nCartão de crédito: %s \n", phoneNumber, creditCard);
-        return info + "Endereço: \n" + address;
+        return (super.toString() + "\nTelefone: " + phoneNumber +
+                "\nCartão de crédito: " + creditCard + "\nEndereço\n" + address);
     }
 }

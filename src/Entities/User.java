@@ -32,11 +32,8 @@ public class User {
 
     public void setEmail(String email) {
         ValidationUtils.validateRequiredString(email, "Email");
-        if (!email.endsWith(".com")) {
-            throw new IllegalArgumentException("Email preenchido incorretamente");
-        }
-        if (!email.contains("@")) {
-            throw new IllegalArgumentException("Email precisa conter @");
+        if (!email.contains("@") || !email.contains(".")) {
+            throw new IllegalArgumentException("Email inválido: deve conter '@' e '.'");
         }
         this.email = email;
     }
@@ -49,7 +46,8 @@ public class User {
         this.password = password;
     }
 
+    @Override
     public String toString() {
-        return String.format("Nome: %s \nEmail: %s \n", name, email);
+        return "Nome: " + name + " Email: " + email;
     }
 }

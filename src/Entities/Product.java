@@ -15,7 +15,7 @@ public class Product {
     }
 
     public Product(int id, String name, String description, Supplier supplier, Stock stock) {
-        this.id = id;
+        this.id = nextId++;
         this.name = name;
         this.description = description;
         this.supplier = supplier;
@@ -48,7 +48,7 @@ public class Product {
     }
 
     public void setDescription(String description) {
-        ValidationUtils.validateRequiredString(name, "Descrição");
+        ValidationUtils.validateRequiredString(description, "Descrição");
         this.description = description;
     }
 
@@ -63,7 +63,8 @@ public class Product {
     @Override
     public String toString() {
         return ("ID: " + id +
-                "\nNome: " + name + " Descrição: " + description +
+                "\nNome: " + name +
+                "\nDescrição: " + description +
                 "\nPreço: " + stock.getPrice() +
                 "\nEstoque: " + stock.getQuantity() +
                 "\nFornecedor: " + supplier.getName());

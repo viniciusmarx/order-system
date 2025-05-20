@@ -22,6 +22,9 @@ public class Store {
             String name = sc.nextLine();
             System.out.print("Email: ");
             String email = sc.nextLine();
+            if (isEmailRegistered(email)) {
+                return;
+            }
             System.out.print("Senha: ");
             String password = sc.nextLine();
 
@@ -39,11 +42,9 @@ public class Store {
 
                 Address address = createAddress(sc);
                 Customer customer = new Customer(name, email, password, phoneNumber, creditCard, address);
-                users[totalUsers++] = customer;
-                customers[totalCustomers++] = customer;
+                addCustomer(customer);
             } else {
-                User newUser = new User(name, email, password);
-                users[totalUsers++] = newUser;
+                addUser(new User(name, email, password));
             }
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
@@ -65,6 +66,16 @@ public class Store {
         }
         System.out.println("Email ou senha inválidos");
         return null;
+    }
+
+    private boolean isEmailRegistered(String email) {
+        for (int i = 0; i < totalUsers; i++) {
+            if (users[i].getEmail().equalsIgnoreCase(email)) {
+                System.out.println("Email já cadastrado");
+                return true;
+            }
+        }
+        return false;
     }
 
     public void registerSupplier(Scanner sc) {
@@ -151,10 +162,10 @@ public class Store {
                     case 3 -> {
                         System.out.print("Novo telefone: ");
                         String phoneNumber = sc.nextLine();
-                        supplier.setDescription(phoneNumber);
+                        supplier.setPhoneNumber(phoneNumber);
                     }
                     case 4 -> {
-                        System.out.print("Novo email");
+                        System.out.print("Novo email: ");
                         String email = sc.nextLine();
                         supplier.setEmail(email);
                     }
@@ -216,6 +227,9 @@ public class Store {
             listSuppliers();
             System.out.print("Escolha um fornecedor: ");
             int idSupplier = Integer.parseInt(sc.nextLine()) - 1;
+            if (idSupplier < 0 || idSupplier >= totalSuppliers) {
+                throw new IllegalArgumentException("Fornecedor inválido");
+            }
             Supplier supplier = suppliers[idSupplier];
             product.setSupplier(supplier);
 
@@ -227,9 +241,9 @@ public class Store {
             product.setStock(stock);
 
             products[totalProducts++] = product;
-            System.out.println("Produto cadstrado com sucesso!");
+            System.out.println("Produto cadastrado com sucesso!");
         } catch (IllegalArgumentException e) {
-            System.out.println("Erro: " + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
@@ -237,6 +251,10 @@ public class Store {
         try {
             listProducts();
             Product product = foundProduct(sc, "alterado");
+            if (product == null) {
+                System.out.println("Produto não encontrado");
+                return;
+            }
             int fieldOption;
             do {
                 System.out.println("\n--- Atualizar Produto");
@@ -271,36 +289,54 @@ public class Store {
                             product.setSupplier(suppliers[supplierIndex]);
                         }
                     }
-                    case 4 -> {
-                        boolean backMenu = false;
-                        while (!backMenu) {
-                            System.out.println("1. Alterar preço");
-                            System.out.println("2. Alterar quantidade");
-                            System.out.println("0. Voltar");
-                            int option = Integer.parseInt(sc.nextLine());
-
-                            switch (option) {
-                                case 0 -> backMenu = true;
-                                case 1 -> {
-                                    System.out.print("Novo preço: ");
-                                    BigDecimal price = new BigDecimal(sc.nextLine());
-                                    product.getStock().setPrice(price);
-                                }
-                                case 2 -> {
-                                    System.out.print("Nova quantidade: ");
-                                    int quantity = Integer.parseInt(sc.nextLine());
-                                    product.getStock().setQuantity(quantity);
-                                }
-                                default -> System.out.println("Opção inválida");
-                            }
-                        }
-                    }
+                    case 4 -> updateStock(sc, product.getStock());
                     default -> System.out.println("Opção inválida");
                 }
             } while (true);
 
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    private void updateStock(Scanner sc, Stock stock) {
+        boolean backMenu = false;
+        while (!backMenu) {
+            System.out.println("\n--- Atualizar Estoque ---");
+            System.out.println("1. Alterar preço");
+            System.out.println("2. Alterar quantidade");
+            System.out.println("0. Voltar");
+            System.out.print("Escolha uma opção: ");
+            int option = Integer.parseInt(sc.nextLine());
+
+            switch (option) {
+                case 0 -> backMenu = true;
+                case 1 -> {
+                    try {
+                        System.out.print("Novo preço: ");
+                        BigDecimal price = new BigDecimal(sc.nextLine());
+                        stock.setPrice(price);
+                        System.out.println("Preço atualizado com sucesso");
+                    } catch (NumberFormatException e) {
+                        System.out.println("Valor inválido para o preço");
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+                case 2 -> {
+                    try {
+                        System.out.print("Nova quantidade: ");
+                        int quantity = Integer.parseInt(sc.nextLine());
+                        stock.setQuantity(quantity);
+                        System.out.println("Quantidade atualizada com sucesso");
+                    } catch (NumberFormatException e) {
+                        System.out.println("Valor inválido para a quantidade");
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+                default -> System.out.println("Opção inválida");
+            }
         }
     }
 
@@ -353,14 +389,6 @@ public class Store {
         }
     }
 
-    public void showSupplierData(Supplier s) {
-        System.out.println(s);
-    }
-
-    private void showCustomerData(Customer c) {
-        System.out.println(c);
-    }
-
     public Address createAddress(Scanner sc) {
         Address address = new Address();
         try {
@@ -392,6 +420,20 @@ public class Store {
         return address;
     }
 
+    public void viewAllStock() {
+        System.out.println("--- Estoque Geral ---");
+
+        if (totalProducts == 0) {
+            System.out.println("Nenhum produto cadastrado");
+            return;
+        }
+
+        for (Product p : products) {
+            System.out.printf("Id: %d | Nome: %s | Preço: R$%.2f | Quantidade: %d\n",
+                    p.getId(), p.getName(), p.getStock().getPrice(), p.getStock().getQuantity());
+        }
+    }
+
     public void addUser(User newUser) {
         users[totalUsers++] = newUser;
     }
@@ -413,7 +455,7 @@ public class Store {
 
         //Customers
         users[totalUsers++] = new User("Joao Pereira", "jpere@mail.com", "123456");
-        customers[totalCustomers++] = new Customer("Joao Pereira", "jpere@mail.com", "123456", "91122254", "9299321645312543",
+        customers[totalCustomers++] = new Customer("Joao Pereira", "jpere@mail.com", "123456", "9112225499", "9299321645312543",
                 new Address("Cruz de Malta", 1205, "", "Interior", "93411000", "Araranguá", "PR"));
 
 
@@ -422,12 +464,10 @@ public class Store {
         // users[totalUsers++] = Customer customer = new Customer(name, email, password, phoneNumber, creditCard, address);
         // customers[totalCustomers++] = Customer customer = new Customer(name, email, password, phoneNumber, creditCard, address);
         users[totalUsers++] = new User("Customer", "cust@customer.com", "123123");
-        customers[totalCustomers++] = new Customer("Customer", "cust@customer.com", "123123", "123456789", "1234567890123456",
+        customers[totalCustomers++] = new Customer("Customer", "cust@customer.com", "123123", "12345678912", "1234567890123456",
                 new Address("Customer", 001, "TESTE", "Customer", "12345678", "Customer City", "BR"));
 
         // users[totalUsers++] = User newUser = new User(name, email, password);
         users[totalUsers++] = new User("Admin", "admin@admin.com", "123123");
-
-
     }
 }
