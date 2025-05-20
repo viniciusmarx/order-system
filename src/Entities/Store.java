@@ -349,7 +349,7 @@ public class Store {
         for (int i = 0; i < totalProducts; i++) {
             System.out.println("Id: " + products[i].getId() + " Nome: " + products[i].getName());
         }
-        System.out.println("Digite o Id do produto que deseja remover");
+        System.out.print("Digite o Id do produto que deseja remover");
         int productId = Integer.parseInt(sc.nextLine());
 
         int index = returnProductIndex(productId);
@@ -378,6 +378,7 @@ public class Store {
         for (int i = 0; i < totalProducts; i++) {
             Product p = products[i];
             System.out.println(p);
+            if (i != totalProducts-1) {System.out.println("----------------");}
         }
     }
 
@@ -452,22 +453,34 @@ public class Store {
                 new Address("Rua ilusão", 456, "Fundos", "Tijuca", "87654321", "Rio de Janeiro", "RJ"));
         suppliers[totalSuppliers++] = new Supplier("Canoas Yerbas", "Distribuidora de produtos naturais", "5399543421", "yerbcanoas@gmail.com",
                 new Address("Rua do sol", 123, "Box 13", "Matias Velho", "12345678", "Canoas", "RS"));
+        suppliers[totalSuppliers++] = new Supplier("Cersul", "Comercio de Cereais", "5399543421", "cersul@gmail.com",
+                new Address("Rodovia do sol", 1083, "Pavilhão 1", "Interior", "95185000", "Carlos Barbosa", "RS"));
 
         //Customers
         users[totalUsers++] = new User("Joao Pereira", "jpere@mail.com", "123456");
         customers[totalCustomers++] = new Customer("Joao Pereira", "jpere@mail.com", "123456", "9112225499", "9299321645312543",
                 new Address("Cruz de Malta", 1205, "", "Interior", "93411000", "Araranguá", "PR"));
 
+        //products
+        //public Product(String name, String description, Supplier supplier, Stock stock)
+        products[totalProducts++] = new Product("Alface", "Alface americana", suppliers[0], new Stock(10, new BigDecimal("2.50")));
+        products[totalProducts++] = new Product("Cenoura", "Cenoura orgânica", suppliers[1], new Stock(20, new BigDecimal("1.50")));
+        products[totalProducts++] = new Product("Maçã", "Maçã verde", suppliers[2], new Stock(15, new BigDecimal("3.00")));
+        products[totalProducts++] = new Product("Laranja", "Laranja Lima", suppliers[3], new Stock(25, new BigDecimal("2.00")));
+        products[totalProducts++] = new Product("Batata", "Batata doce", suppliers[0], new Stock(30, new BigDecimal("1.20")));
+
+
+
 
         //GENERIC USERS
 
         // users[totalUsers++] = Customer customer = new Customer(name, email, password, phoneNumber, creditCard, address);
         // customers[totalCustomers++] = Customer customer = new Customer(name, email, password, phoneNumber, creditCard, address);
-        users[totalUsers++] = new User("Customer", "cust@customer.com", "123123");
-        customers[totalCustomers++] = new Customer("Customer", "cust@customer.com", "123123", "12345678912", "1234567890123456",
-                new Address("Customer", 001, "TESTE", "Customer", "12345678", "Customer City", "BR"));
+        users[totalUsers++] = new User("User", "user@user.com", "123123");
+        customers[totalCustomers++] = new Customer("User", "user@user.com", "123123", "12345678912", "1234567890123456",
+                new Address("Customer", 001, "User", "User", "12345678", "User City", "BR"));
 
         // users[totalUsers++] = User newUser = new User(name, email, password);
-        users[totalUsers++] = new User("Admin", "admin@admin.com", "123123");
+        users[totalUsers++] = new User("Admin", "adm@adm.com", "123123");
     }
 }

@@ -14,7 +14,7 @@ public class Product {
         this.id = nextId++;
     }
 
-    public Product(int id, String name, String description, Supplier supplier, Stock stock) {
+    public Product(String name, String description, Supplier supplier, Stock stock) {
         this.id = nextId++;
         this.name = name;
         this.description = description;
