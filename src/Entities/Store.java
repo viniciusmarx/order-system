@@ -1,19 +1,15 @@
 package Entities;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Store {
-    private User[] users = new User[10];
-    private Customer[] customers = new Customer[10];
-    private Supplier[] suppliers = new Supplier[10];
-    private Product[] products = new Product[100];
-
-    private int totalUsers = 0;
-    private int totalCustomers = 0;
-    private int totalSuppliers = 0;
-    private int totalProducts = 0;
+    private List<User> users = new ArrayList<>();
+    private List<Customer> customers = new ArrayList<>();
+    private List<Supplier> suppliers = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
 
     public void createNewAccount(Scanner sc) {
         try {
@@ -41,8 +37,7 @@ public class Store {
                 String creditCard = sc.nextLine();
 
                 Address address = createAddress(sc);
-                Customer customer = new Customer(name, email, password, phoneNumber, creditCard, address);
-                addCustomer(customer);
+                addCustomer(new Customer(name, email, password, phoneNumber, creditCard, address));
             } else {
                 addUser(new User(name, email, password));
             }
@@ -58,10 +53,10 @@ public class Store {
         System.out.print("Senha: ");
         String password = sc.nextLine();
 
-        for (int i = 0; i < totalUsers; i++) {
-            if (users[i].getEmail().equals(email) && users[i].getPassword().equals(password)) {
-                System.out.println("Bem-vindo(a), " + users[i].getName());
-                return users[i];
+        for (User u : users) {
+            if (u.getEmail().equals(email) && u.getPassword().equals(password)) {
+                System.out.println("Bem-vindo(a), " + u.getName());
+                return u;
             }
         }
         System.out.println("Email ou senha inválidos");
@@ -69,8 +64,8 @@ public class Store {
     }
 
     private boolean isEmailRegistered(String email) {
-        for (int i = 0; i < totalUsers; i++) {
-            if (users[i].getEmail().equalsIgnoreCase(email)) {
+        for (User u : users) {
+            if (u.getEmail().equalsIgnoreCase(email)) {
                 System.out.println("Email já cadastrado");
                 return true;
             }
@@ -83,25 +78,20 @@ public class Store {
             Supplier supplier = new Supplier();
             System.out.println("--- Cadastro de fornecedor ---");
             System.out.print("Nome: ");
-            String name = sc.nextLine();
-            supplier.setName(name);
+            supplier.setName(sc.nextLine());
 
             System.out.print("Descrição: ");
-            String description = sc.nextLine();
-            supplier.setDescription(description);
+            supplier.setDescription(sc.nextLine());
 
             System.out.print("Telefone: ");
-            String phoneNumber = sc.nextLine();
-            supplier.setPhoneNumber(phoneNumber);
+            supplier.setPhoneNumber(sc.nextLine());
 
             System.out.print("Email: ");
-            String email = sc.nextLine();
-            supplier.setEmail(email);
+            supplier.setEmail(sc.nextLine());
 
-            Address address = createAddress(sc);
-            supplier.setAddress(address);
+            supplier.setAddress(createAddress(sc));
 
-            suppliers[totalSuppliers++] = supplier;
+            suppliers.add(supplier);
             System.out.println("Fornecedor cadastrado com sucesso!");
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
@@ -110,21 +100,21 @@ public class Store {
 
     public Supplier foundSupplier(Scanner sc, String operation) {
         System.out.print("Digite o código do fornecedor a ser " + operation + ": ");
-        int supplierPosition = Integer.parseInt(sc.nextLine());
+        int index = Integer.parseInt(sc.nextLine());
 
-        if (supplierPosition <= 0 || supplierPosition > totalSuppliers) {
+        if (index <= 0 || index > suppliers.size()) {
             throw new IllegalArgumentException("Fornecedor inválido");
         }
-        return suppliers[supplierPosition - 1];
+        return suppliers.get(index);
     }
 
     public Product foundProduct(Scanner sc, String operation) {
         System.out.print("Digite o código do produto a ser " + operation + ": ");
-        int productId = Integer.parseInt(sc.nextLine());
+        int id = Integer.parseInt(sc.nextLine());
 
-        for (int i = 0; i < totalProducts; i++) {
-            if (productId == products[i].getId()) {
-                return products[i];
+        for (Product p : products) {
+            if (p.getId() == id) {
+                return p;
             }
         }
         return null;
@@ -144,35 +134,29 @@ public class Store {
                 System.out.println("5. Endereço");
                 System.out.println("0. Voltar");
                 option = Integer.parseInt(sc.nextLine());
-
                 switch (option) {
                     case 0 -> {
                         return;
                     }
                     case 1 -> {
                         System.out.print("Novo nome: ");
-                        String name = sc.nextLine();
-                        supplier.setName(name);
+                        supplier.setName(sc.nextLine());
                     }
                     case 2 -> {
                         System.out.print("Nova descrição: ");
-                        String description = sc.nextLine();
-                        supplier.setDescription(description);
+                        supplier.setDescription(sc.nextLine());
                     }
                     case 3 -> {
                         System.out.print("Novo telefone: ");
-                        String phoneNumber = sc.nextLine();
-                        supplier.setPhoneNumber(phoneNumber);
+                        supplier.setPhoneNumber(sc.nextLine());
                     }
                     case 4 -> {
                         System.out.print("Novo email: ");
-                        String email = sc.nextLine();
-                        supplier.setEmail(email);
+                        supplier.setEmail(sc.nextLine());
                     }
                     case 5 -> {
                         System.out.println("Novo endereço: ");
-                        Address address = createAddress(sc);
-                        supplier.setAddress(address);
+                        supplier.setAddress(createAddress(sc));
                     }
                 }
             } while (true);
@@ -183,8 +167,8 @@ public class Store {
     }
 
     public boolean canDeleteSupplier(Supplier supplier) {
-        for (Product product : products) {
-            if (product != null && product.getSupplier().equals(supplier)) {
+        for (Product p : products) {
+            if (p != null && p.getSupplier().equals(supplier)) {
                 System.out.println("Fornecedor está vinculado a um ou mais produtos e não pode ser removido");
                 return false;
             }
@@ -193,54 +177,38 @@ public class Store {
     }
 
     public void removeSupplier(Supplier supplier) {
-        int index = -1;
-        for (int i = 0; i < totalSuppliers; i++) {
-            if (suppliers[i] == supplier) {
-                index = i;
-                break;
-            }
-        }
-        if (index != -1) {
-            for (int i = index; i < totalSuppliers - 1; i++) {
-                suppliers[i] = suppliers[i + 1];
-            }
-            suppliers[--totalSuppliers] = null;
-        }
+        suppliers.remove(supplier);
     }
 
     public void registerProduct(Scanner sc) {
         try {
-            if (totalSuppliers == 0) {
+            if (suppliers.isEmpty()) {
                 System.out.println("Nenhum fornecedor cadastrado. Cadastre um fornecedor primeiro");
                 return;
             }
             Product product = new Product();
             System.out.println("--- Cadastro de Produto ---");
             System.out.print("Nome: ");
-            String name = sc.nextLine();
-            product.setName(name);
+            product.setName(sc.nextLine());
 
             System.out.print("Descrição: ");
-            String description = sc.nextLine();
-            product.setDescription(description);
+            product.setDescription(sc.nextLine());
 
             listSuppliers();
             System.out.print("Escolha um fornecedor: ");
-            int idSupplier = Integer.parseInt(sc.nextLine()) - 1;
-            if (idSupplier < 0 || idSupplier >= totalSuppliers) {
+            int index = Integer.parseInt(sc.nextLine()) - 1;
+            if (index < 0 || index >= suppliers.size()) {
                 throw new IllegalArgumentException("Fornecedor inválido");
             }
-            Supplier supplier = suppliers[idSupplier];
-            product.setSupplier(supplier);
+            product.setSupplier(suppliers.get(index));
 
             System.out.print("Quantidade em estoque: ");
             int quantity = Integer.parseInt(sc.nextLine());
             System.out.print("Preço unitário: ");
             BigDecimal price = new BigDecimal(sc.nextLine());
-            Stock stock = new Stock(quantity, price);
-            product.setStock(stock);
+            product.setStock(new Stock(quantity, price));
 
-            products[totalProducts++] = product;
+            products.add(product);
             System.out.println("Produto cadastrado com sucesso!");
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
@@ -255,7 +223,7 @@ public class Store {
                 System.out.println("Produto não encontrado");
                 return;
             }
-            int fieldOption;
+            int option;
             do {
                 System.out.println("\n--- Atualizar Produto");
                 System.out.println("1. Nome");
@@ -263,30 +231,27 @@ public class Store {
                 System.out.println("3. Fornecedor");
                 System.out.println("4. Estoque");
                 System.out.println("0. Voltar");
-                fieldOption = Integer.parseInt(sc.nextLine());
-
-                switch (fieldOption) {
+                option = Integer.parseInt(sc.nextLine());
+                switch (option) {
                     case 0 -> {
                         return;
                     }
                     case 1 -> {
                         System.out.print("Novo nome: ");
-                        String name = sc.nextLine();
-                        product.setName(name);
+                        product.setName(sc.nextLine());
                     }
                     case 2 -> {
                         System.out.print("Nova descrição: ");
-                        String description = sc.nextLine();
-                        product.setDescription(description);
+                        product.setDescription(sc.nextLine());
                     }
                     case 3 -> {
                         listSuppliers();
                         System.out.print("Escolha um novo fornecedor: ");
                         int supplierIndex = Integer.parseInt(sc.nextLine()) - 1;
-                        if (supplierIndex < 0 || supplierIndex >= totalSuppliers) {
+                        if (supplierIndex < 0 || supplierIndex >= suppliers.size()) {
                             System.out.println("Fornecedor inválido");
                         } else {
-                            product.setSupplier(suppliers[supplierIndex]);
+                            product.setSupplier(suppliers.get(supplierIndex));
                         }
                     }
                     case 4 -> updateStock(sc, product.getStock());
@@ -308,7 +273,6 @@ public class Store {
             System.out.println("0. Voltar");
             System.out.print("Escolha uma opção: ");
             int option = Integer.parseInt(sc.nextLine());
-
             switch (option) {
                 case 0 -> backMenu = true;
                 case 1 -> {
@@ -341,51 +305,37 @@ public class Store {
     }
 
     public void removeProduct(Scanner sc) {
-        if (totalProducts == 0) {
+        if (products.isEmpty()) {
             System.out.println("Nenhum produto cadastrado");
             return;
         }
-
-        for (int i = 0; i < totalProducts; i++) {
-            System.out.println("Id: " + products[i].getId() + " Nome: " + products[i].getName());
-        }
-        System.out.print("Digite o Id do produto que deseja remover");
+        listProducts();
+        System.out.print("Digite o Id do produto que deseja remover: ");
         int productId = Integer.parseInt(sc.nextLine());
 
-        int index = returnProductIndex(productId);
-        if (index == -1) {
+        Product product = foundProduct(sc, "removido");
+        if(product == null){
             System.out.println("Produto não encontrado");
             return;
         }
-
-        for (int i = index; i < totalProducts - 1; i++) {
-            products[i] = products[i + 1];
-        }
-        products[--totalProducts] = null;
-    }
-
-    private int returnProductIndex(int id) {
-        for (int i = 0; i < totalProducts; i++) {
-            if (products[i].getId() == id) {
-                return i;
-            }
-        }
-        return -1;
+        products.remove(product);
+        System.out.println("Produto removido com sucesso");
     }
 
     public void listProducts() {
         System.out.println("--- Lista de Produtos ---");
-        for (int i = 0; i < totalProducts; i++) {
-            Product p = products[i];
-            System.out.println(p);
-            if (i != totalProducts-1) {System.out.println("----------------");}
+        for (int i = 0; i < products.size(); i++) {
+            System.out.println(products.get(i));
+            if (i < products.size() - 1) {
+                System.out.println("----------------");
+            }
         }
     }
 
     public void listSuppliers() {
         System.out.println("--- Lista de Fornecedores ---");
-        for (int i = 0; i < totalSuppliers; i++) {
-            Supplier s = suppliers[i];
+        for (int i = 0; i < suppliers.size(); i++) {
+            Supplier s = suppliers.get(i);
             System.out.println((i + 1) + " - " + s.getName() + " - " + s.getDescription());
         }
     }
@@ -395,26 +345,19 @@ public class Store {
         try {
             System.out.println("- Endereço -");
             System.out.print("Rua: ");
-            String street = sc.nextLine();
-            address.setStreet(street);
+            address.setStreet(sc.nextLine());
             System.out.print("Número: ");
-            int number = Integer.parseInt(sc.nextLine());
-            address.setNumber(number);
+            address.setNumber(Integer.parseInt(sc.nextLine()));
             System.out.print("Complemento: ");
-            String complement = sc.nextLine();
-            address.setComplement(complement);
+            address.setComplement(sc.nextLine());
             System.out.print("CEP: ");
-            String zipCode = sc.nextLine();
-            address.setZipCode(zipCode);
+            address.setZipCode(sc.nextLine());
             System.out.print("Cidade: ");
-            String city = sc.nextLine();
-            address.setCity(city);
+            address.setCity(sc.nextLine());
             System.out.print("Bairro: ");
-            String neighborhood = sc.nextLine();
-            address.setNeighborhood(neighborhood);
+            address.setNeighborhood(sc.nextLine());
             System.out.print("Estado: ");
-            String state = sc.nextLine();
-            address.setState(state);
+            address.setState(sc.nextLine());
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
@@ -424,7 +367,7 @@ public class Store {
     public void viewAllStock() {
         System.out.println("--- Estoque Geral ---");
 
-        if (totalProducts == 0) {
+        if (products.isEmpty()) {
             System.out.println("Nenhum produto cadastrado");
             return;
         }
@@ -436,51 +379,47 @@ public class Store {
     }
 
     public void addUser(User newUser) {
-        users[totalUsers++] = newUser;
+        users.add(newUser);
     }
 
     public void addCustomer(Customer newCustomer) {
-        users[totalUsers++] = newCustomer;
-        customers[totalCustomers++] = newCustomer;
+        users.add(newCustomer);
+        customers.add(newCustomer);
     }
 
     public void addDBResources() {
 
         //Suppliers
-        suppliers[totalSuppliers++] = new Supplier("FF Frutas", "Vendas diretas de frutas", "5399543421", "fffrutas@supp.com",
-                new Address("Rua Fantasia", 12323, "", "Centro", "12345678", "São Paulo", "SP"));
-        suppliers[totalSuppliers++] = new Supplier("Carqueja", "Deposito de verduras e insumos para chá", "5399543421", "carq@yahoo.com",
-                new Address("Rua ilusão", 456, "Fundos", "Tijuca", "87654321", "Rio de Janeiro", "RJ"));
-        suppliers[totalSuppliers++] = new Supplier("Canoas Yerbas", "Distribuidora de produtos naturais", "5399543421", "yerbcanoas@gmail.com",
-                new Address("Rua do sol", 123, "Box 13", "Matias Velho", "12345678", "Canoas", "RS"));
-        suppliers[totalSuppliers++] = new Supplier("Cersul", "Comercio de Cereais", "5399543421", "cersul@gmail.com",
-                new Address("Rodovia do sol", 1083, "Pavilhão 1", "Interior", "95185000", "Carlos Barbosa", "RS"));
+        suppliers.add(new Supplier("FF Frutas", "Vendas diretas de frutas", "5399543421", "fffrutas@supp.com",
+                new Address("Rua Fantasia", 12323, "", "Centro", "12345678", "São Paulo", "SP")));
+        suppliers.add(new Supplier("Carqueja", "Deposito de verduras e insumos para chá", "5399543421", "carq@yahoo.com",
+                new Address("Rua ilusão", 456, "Fundos", "Tijuca", "87654321", "Rio de Janeiro", "RJ")));
+        suppliers.add(new Supplier("Canoas Yerbas", "Distribuidora de produtos naturais", "5399543421", "yerbcanoas@gmail.com",
+                new Address("Rua do sol", 123, "Box 13", "Matias Velho", "12345678", "Canoas", "RS")));
+        suppliers.add(new Supplier("Cersul", "Comercio de Cereais", "5399543421", "cersul@gmail.com",
+                new Address("Rodovia do sol", 1083, "Pavilhão 1", "Interior", "95185000", "Carlos Barbosa", "RS")));
 
         //Customers
-        users[totalUsers++] = new User("Joao Pereira", "jpere@mail.com", "123456");
-        customers[totalCustomers++] = new Customer("Joao Pereira", "jpere@mail.com", "123456", "9112225499", "9299321645312543",
-                new Address("Cruz de Malta", 1205, "", "Interior", "93411000", "Araranguá", "PR"));
+        addCustomer(new Customer("Joao Pereira", "jpere@mail.com", "123456", "9112225499", "9299321645312543",
+                new Address("Cruz de Malta", 1205, "", "Interior", "93411000", "Araranguá", "PR")));
 
         //products
         //public Product(String name, String description, Supplier supplier, Stock stock)
-        products[totalProducts++] = new Product("Alface", "Alface americana", suppliers[0], new Stock(10, new BigDecimal("2.50")));
-        products[totalProducts++] = new Product("Cenoura", "Cenoura orgânica", suppliers[1], new Stock(20, new BigDecimal("1.50")));
-        products[totalProducts++] = new Product("Maçã", "Maçã verde", suppliers[2], new Stock(15, new BigDecimal("3.00")));
-        products[totalProducts++] = new Product("Laranja", "Laranja Lima", suppliers[3], new Stock(25, new BigDecimal("2.00")));
-        products[totalProducts++] = new Product("Batata", "Batata doce", suppliers[0], new Stock(30, new BigDecimal("1.20")));
-
-
+        products.add(new Product("Alface", "Alface americana", suppliers.get(0), new Stock(10, new BigDecimal("2.50"))));
+        products.add(new Product("Cenoura", "Cenoura orgânica", suppliers.get(1), new Stock(20, new BigDecimal("1.50"))));
+        products.add(new Product("Maçã", "Maçã verde", suppliers.get(2), new Stock(15, new BigDecimal("3.00"))));
+        products.add(new Product("Laranja", "Laranja Lima", suppliers.get(3), new Stock(25, new BigDecimal("2.00"))));
+        products.add(new Product("Batata", "Batata doce", suppliers.get(0), new Stock(30, new BigDecimal("1.20"))));
 
 
         //GENERIC USERS
 
         // users[totalUsers++] = Customer customer = new Customer(name, email, password, phoneNumber, creditCard, address);
         // customers[totalCustomers++] = Customer customer = new Customer(name, email, password, phoneNumber, creditCard, address);
-        users[totalUsers++] = new User("User", "user@user.com", "123123");
-        customers[totalCustomers++] = new Customer("User", "user@user.com", "123123", "12345678912", "1234567890123456",
-                new Address("Customer", 001, "User", "User", "12345678", "User City", "BR"));
+        addCustomer(new Customer("User", "user@user.com", "123123", "12345678912", "1234567890123456",
+                new Address("Customer", 001, "User", "User", "12345678", "User City", "BR")));
 
         // users[totalUsers++] = User newUser = new User(name, email, password);
-        users[totalUsers++] = new User("Admin", "adm@adm.com", "123123");
+        addUser(new User("Admin", "adm@adm.com", "123123"));
     }
 }
