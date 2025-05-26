@@ -310,9 +310,6 @@ public class Store {
             return;
         }
         listProducts();
-        System.out.print("Digite o Id do produto que deseja remover: ");
-        int productId = Integer.parseInt(sc.nextLine());
-
         Product product = foundProduct(sc, "removido");
         if(product == null){
             System.out.println("Produto não encontrado");
