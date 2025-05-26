@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Store {
-    private List<User> users = new ArrayList<>();
-    private List<Customer> customers = new ArrayList<>();
-    private List<Supplier> suppliers = new ArrayList<>();
-    private List<Product> products = new ArrayList<>();
+    private final List<User> users = new ArrayList<>();
+    private final List<Customer> customers = new ArrayList<>();
+    private final List<Supplier> suppliers = new ArrayList<>();
+    private final List<Product> products = new ArrayList<>();
 
     public void createNewAccount(Scanner sc) {
         try {
@@ -414,7 +414,7 @@ public class Store {
         // users[totalUsers++] = Customer customer = new Customer(name, email, password, phoneNumber, creditCard, address);
         // customers[totalCustomers++] = Customer customer = new Customer(name, email, password, phoneNumber, creditCard, address);
         addCustomer(new Customer("User", "user@user.com", "123123", "12345678912", "1234567890123456",
-                new Address("Customer", 001, "User", "User", "12345678", "User City", "BR")));
+                new Address("Customer", 887, "User", "User", "12345678", "User City", "BR")));
 
         // users[totalUsers++] = User newUser = new User(name, email, password);
         addUser(new User("Admin", "adm@adm.com", "123123"));
