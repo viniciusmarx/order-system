@@ -1,169 +1,50 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import Entities.Customer;
+import Entities.Store;
+import Entities.User;
+import Menus.MainMenu;
+import Menus.MenuAdmin;
+import Menus.MenuCustomer;
 
 import java.util.Scanner;
 
 public class Main {
-
-    private static Scanner sc;
-    private static MySystem system;
     public static void main(String[] args) {
 
-        Main main = new Main();
-        User user = main.login();
-        main.showMenu(user);
-    }
+        Store store = new Store();
+        store.addDBResources();
 
-    public void showMenu(User user){
-        sc = new Scanner(System.in);
-        int option = 0;
-        do{
-            System.out.println("---------------------------------------------");
-            System.out.println("1 - Produts");
-            if(user.getRole() == 1 ){
-                System.out.println("2 - Suppliers");
-                System.out.println("3 - Inventory");
-            }
-            System.out.println("0 - Exit");
-            System.out.print("Choose an option: ");
-            option = sc.nextInt();
-            sc.nextLine(); // Limpar o buffer
+        Scanner sc = new Scanner(System.in);
 
-            switch(option){
-                case 1:
-                    // Implementar Produtos
-                    break;
-                case 2:
-                    menuCustomers(sc);
-                    break;
-                case 3:
-                    menuInventory(sc);
-                    break;
-                case 0:
-                    System.out.println("Exiting...");
-                    break;
-                default:
-                    System.out.println("Invalid option. Try again.");
-            }
-        } while(option != 0);
-        System.out.println("---------------------------------------------");
-    }
+        int option;
 
-    public void menuCustomers(Scanner sc){
-        int option = 0;
-        do{
-            System.out.println("---------------------------------------------");
-            System.out.println("1 - Add Customer");
-            System.out.println("2 - Edit Customer");
-            System.out.println("3 - Remove Customer");
-            System.out.println("4 - List Customers");
-            System.out.println("0 - Back");
-            System.out.print("Choose an option: ");
-            option = sc.nextInt();
-            sc.nextLine(); // Limpar o buffer
+        while (true) {
+            User user = null;
+            do {
+                option = MainMenu.show(sc);
 
-            switch(option){
-                case 1:
-                    System.out.println("cadastro de fornecedor");
-                    menuCustomers(sc);
-                    // Implementar Cadastro de Fornecedor
-                    break;
-                case 2:
-                    System.out.println("edição de fornecedor");
-                    menuCustomers(sc);
-                    // Implementar Edição de Fornecedor
-                    break;
-                case 3:
-                    System.out.println("remoção de fornecedor");
-                    menuCustomers(sc);
-                    // Implementar Remoção de Fornecedor
-                    break;
-                case 4:
-                    System.out.println("listagem de fornecedor");
-                    menuCustomers(sc);
-                    // Implementar Listagem de Fornecedores
-                    break;
-                case 0:
-                    System.out.println("Returning ...");
-                    break;
-                default:
-                    System.out.println("Invalid option. Try again.");
-                    menuCustomers(sc);
-            }
-            return;
-        }while(option != 0);
-    }
-
-    public void menuInventory(Scanner sc){
-        int option = 0;
-        do{
-            System.out.println("---------------------------------------------");
-            System.out.println("1 - Add Product");
-            System.out.println("2 - Edit Product");
-            System.out.println("3 - Remove Product");
-            System.out.println("4 - List Products");
-            System.out.println("0 - Back");
-            System.out.print("Choose an option: ");
-            option = sc.nextInt();
-            sc.nextLine(); // Limpar o buffer
-
-            switch(option){
-                case 1:
-                    System.out.println("cadastro de produto");
-                    menuInventory(sc);
-                    // Implementar Cadastro de produto
-                    break;
-                case 2:
-                    System.out.println("edição de produto");
-                    menuInventory(sc);
-                    // Implementar Edição de produto
-                    break;
-                case 3:
-                    System.out.println("remoção de produto");
-                    menuInventory(sc);
-                    // Implementar Remoção de produto
-                    break;
-                case 4:
-                    System.out.println("listagem de produto");
-                    menuInventory(sc);
-                    // Implementar Listagem de produto
-                    break;
-                case 0:
-                    System.out.println("Returning ...");
-                    break;
-                default:
-                    System.out.println("Invalid option. Try again.");
-                    menuInventory(sc);
-            }
-            return;
-        }while(option != 0);
-    }
-
-    public User login(){
-        system = new MySystem();
-        sc = new Scanner(System.in);
-        User loggedIn;
-        int count = 0;
-
-        do{
-            System.out.println("---------------------------------------------");
-            System.out.print("Write your email: ");
-            String email = sc.nextLine();
-            System.out.print("Write your password: ");
-            String password = sc.nextLine();
-
-            loggedIn = system.login(email, password);
-            if(loggedIn == null){
-                count++;
-                if(count == 3){
-                    System.out.println("You have exceeded the maximum number of login attempts. Try again later");
-                    System.exit(0);
+                switch (option) {
+                    case 1 -> user = store.login(sc);
+                    case 2 -> store.createNewAccount(sc);
+                    case 0 -> {
+                        System.out.println("Saindo...");
+                        System.exit(0);
+                    }
+                    default -> System.out.println("Opção inválida");
                 }
-            }
-        } while(loggedIn == null);
+            } while (user == null);
 
-        System.out.println("---------------------------------------------");
+            if (user instanceof Customer c) {
+                MenuCustomer.show(sc, c, store);
+            } else {
+                MenuAdmin.show(sc, store);
+            }
+
+            System.out.println("Deseja fazer login com outro usuário? (s/n)");
+            String again = sc.nextLine();
+            if (!again.equalsIgnoreCase("s")) {
+                break;
+            }
+        }
         sc.close();
-        return loggedIn;
     }
 }
