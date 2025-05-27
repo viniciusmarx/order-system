@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Function;
 
 public class Store {
     private final List<User> users = new ArrayList<>();
@@ -311,7 +312,7 @@ public class Store {
         }
         listProducts();
         Product product = foundProduct(sc, "removido");
-        if(product == null){
+        if (product == null) {
             System.out.println("Produto não encontrado");
             return;
         }
@@ -372,6 +373,33 @@ public class Store {
         for (Product p : products) {
             System.out.printf("Id: %d | Nome: %s | Preço: R$%.2f | Quantidade: %d\n",
                     p.getId(), p.getName(), p.getStock().getPrice(), p.getStock().getQuantity());
+        }
+    }
+
+    public void showProductByName(Scanner sc) {
+        showByName(sc, products, Product::getName, "produto");
+    }
+
+    public void showSupplierByName(Scanner sc) {
+        showByName(sc, suppliers, Supplier::getName, "fornecedor");
+    }
+
+    private <T> void showByName(Scanner sc, List<T> list, Function<T, String> nameExtractor, String entityType) {
+        System.out.println("Digite o nome (ou parte do nome) do " + entityType + ":");
+        String search = sc.nextLine();
+
+        boolean found = false;
+        for (T item : list) {
+            String name = nameExtractor.apply(item);
+            if (name != null && name.toLowerCase().contains(search)) {
+                System.out.println(item);
+                System.out.println("----------------");
+                found = true;
+            }
+        }
+
+        if (!found) {
+            System.out.println(entityType + " não encontrado");
         }
     }
 

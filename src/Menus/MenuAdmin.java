@@ -8,10 +8,10 @@ import java.util.Scanner;
 public class MenuAdmin {
 
     private static String[] supplierOptions = {
-            "Cadastrar Fornecedor", "Alterar Fornecedor", "Remover Fornecedor", "Listar Fornecedores"
+            "Cadastrar fornecedor", "Alterar fornecedor", "Remover fornecedor", "Listar fornecedores", "Pesquisar fornecedor"
     };
     private static String[] productOptions = {
-            "Cadastrar Produto", "Alterar Produto", "Remover Produto", "Listar Produtos"
+            "Cadastrar produto", "Alterar produto", "Remover produto", "Listar produtos", "Pesquisar produto"
     };
     private static String[] stockOptions = {
             "Visualizar todo estoque"
@@ -63,6 +63,7 @@ public class MenuAdmin {
                         }
                     }
                     case 4 -> store.listSuppliers();
+                    case 5 -> store.showSupplierByName(sc);
                     default -> System.out.println("Opção inválida");
                 }
             } while (true);
@@ -83,6 +84,7 @@ public class MenuAdmin {
                 case 2 -> store.updateProduct(sc);
                 case 3 -> store.removeProduct(sc);
                 case 4 -> store.listProducts();
+                case 5 -> store.showProductByName(sc);
                 default -> System.out.println("Opção inválida");
             }
         } while (true);
