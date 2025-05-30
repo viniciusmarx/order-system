@@ -3,13 +3,16 @@ package Entities;
 import Utils.ValidationUtils;
 
 public class Supplier {
+    private static int nextId = 1;
     private String name;
     private String description;
     private String phoneNumber;
     private String email;
     private Address address;
+    private int id;
 
     public Supplier() {
+        this.id = nextId++;
     }
 
     public Supplier(String name, String description, String phoneNumber, String email, Address address) {
@@ -18,6 +21,7 @@ public class Supplier {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.address = address;
+        this.id = nextId++;
     }
 
     public String getName() {
@@ -38,6 +42,10 @@ public class Supplier {
 
     public Address getAddress(){
         return address;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void setName(String name) {
