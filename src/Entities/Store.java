@@ -334,7 +334,7 @@ public class Store {
         System.out.println("--- Lista de Fornecedores ---");
         for (int i = 0; i < suppliers.size(); i++) {
             Supplier s = suppliers.get(i);
-            System.out.println((i + 1) + " - " + s.getName() + " - " + s.getDescription());
+            System.out.println(s.getId() + " - " + s.getName() + " - " + s.getDescription());
         }
     }
 
@@ -377,24 +377,34 @@ public class Store {
     }
 
     public void showProductByName(Scanner sc) {
-        showByName(sc, products, Product::getName, "produto");
+        showByName(sc, products, Product::getName, Product::getId,  "produto");
     }
 
     public void showSupplierByName(Scanner sc) {
-        showByName(sc, suppliers, Supplier::getName, "fornecedor");
+        showByName(sc, suppliers, Supplier::getName, Supplier::getId, "fornecedor");
     }
 
-    private <T> void showByName(Scanner sc, List<T> list, Function<T, String> nameExtractor, String entityType) {
-        System.out.println("Digite o nome (ou parte do nome) do " + entityType + ":");
+    private <T> void showByName(Scanner sc, List<T> list, Function<T, String> nameExtractor, Function<T, Integer> idExtractor, String entityType) {
+        System.out.print("Digite nome ou id do " + entityType + ": ");
         String search = sc.nextLine();
+        System.out.println("");
 
         boolean found = false;
         for (T item : list) {
             String name = nameExtractor.apply(item);
-            if (name != null && name.toLowerCase().contains(search)) {
+            if (name != null && name.toLowerCase().contains(search.toLowerCase())) {
                 System.out.println(item);
                 System.out.println("----------------");
                 found = true;
+            }
+
+            String num = idExtractor.apply(item).toString();
+            if(num != null && num.toLowerCase().contains(search))
+            {
+                System.out.println(item);
+                System.out.println("----------------");
+                found = true;
+                break;
             }
         }
 

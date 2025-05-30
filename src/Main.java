@@ -28,6 +28,7 @@ public class Main {
                     case 0 -> {
                         System.out.println("Saindo...");
                         System.exit(0);
+                        sc.close();
                     }
                     default -> System.out.println("Opção inválida");
                 }
@@ -38,13 +39,6 @@ public class Main {
             } else {
                 MenuAdmin.show(sc, store);
             }
-
-            System.out.println("Deseja fazer login com outro usuário? (s/n)");
-            String again = sc.nextLine();
-            if (!again.equalsIgnoreCase("s")) {
-                break;
-            }
         }
-        sc.close();
     }
 }
