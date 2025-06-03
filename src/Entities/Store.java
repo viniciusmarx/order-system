@@ -399,7 +399,7 @@ public class Store {
             }
 
             String num = idExtractor.apply(item).toString();
-            if(num != null && num.toLowerCase().contains(search))
+            if(num != null && num.equals(search))
             {
                 System.out.println(item);
                 System.out.println("----------------");
