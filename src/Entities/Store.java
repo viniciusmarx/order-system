@@ -322,18 +322,14 @@ public class Store {
 
     public void listProducts() {
         System.out.println("--- Lista de Produtos ---");
-        for (int i = 0; i < products.size(); i++) {
-            System.out.println(products.get(i));
-            if (i < products.size() - 1) {
-                System.out.println("----------------");
-            }
+        for (Product product : products) {
+            System.out.println("\n" + product);
         }
     }
 
     public void listSuppliers() {
         System.out.println("--- Lista de Fornecedores ---");
-        for (int i = 0; i < suppliers.size(); i++) {
-            Supplier s = suppliers.get(i);
+        for (Supplier s : suppliers) {
             System.out.println(s.getId() + " - " + s.getName() + " - " + s.getDescription());
         }
     }
@@ -377,7 +373,7 @@ public class Store {
     }
 
     public void showProductByName(Scanner sc) {
-        showByName(sc, products, Product::getName, Product::getId,  "produto");
+        showByName(sc, products, Product::getName, Product::getId, "produto");
     }
 
     public void showSupplierByName(Scanner sc) {
@@ -387,27 +383,22 @@ public class Store {
     private <T> void showByName(Scanner sc, List<T> list, Function<T, String> nameExtractor, Function<T, Integer> idExtractor, String entityType) {
         System.out.print("Digite nome ou id do " + entityType + ": ");
         String search = sc.nextLine();
-        System.out.println("");
 
         boolean found = false;
         for (T item : list) {
             String name = nameExtractor.apply(item);
             if (name != null && name.toLowerCase().contains(search.toLowerCase())) {
-                System.out.println(item);
-                System.out.println("----------------");
+                System.out.println("\n" + item);
                 found = true;
             }
 
-            String num = idExtractor.apply(item).toString();
-            if(num != null && num.equals(search))
-            {
-                System.out.println(item);
-                System.out.println("----------------");
+            String id = idExtractor.apply(item).toString();
+            if (id.equals(search)) {
+                System.out.println("\n" + item);
                 found = true;
                 break;
             }
         }
-
         if (!found) {
             System.out.println(entityType + " não encontrado");
         }
