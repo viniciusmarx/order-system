@@ -2,10 +2,14 @@ package Entities;
 
 import Utils.ValidationUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Customer extends User {
     private String phoneNumber;
     private String creditCard;
     private Address address;
+    private List<Order> orders = new ArrayList<>();
 
     public Customer(String name, String email, String password,
                     String phoneNumber, String creditCard, Address address) {
@@ -48,6 +52,14 @@ public class Customer extends User {
             throw new IllegalArgumentException("Endereço não pode ser nulo");
         }
         this.address = address;
+    }
+
+    public void addOrder(Order order) {
+        orders.add(order);
+    }
+
+    public List<Order> getOrders() {
+        return orders;
     }
 
     @Override
