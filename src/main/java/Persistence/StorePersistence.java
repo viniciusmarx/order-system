@@ -1,6 +1,8 @@
 package Persistence;
 
+import Entities.Product;
 import Entities.Store;
+import Entities.Supplier;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
@@ -33,7 +35,9 @@ public class StorePersistence {
         File file = new File(FILE_PATH);
         if (file.exists()) {
             try {
-                return mapper.readValue(file, Store.class);
+                Store store = mapper.readValue(file, Store.class);
+                UpdateAllNextIds(store);
+                return store;
             } catch (IOException e) {
                 System.out.println("Erro ao carregar dados da loja: " + e.getMessage());
                 System.exit(1);
@@ -42,5 +46,26 @@ public class StorePersistence {
         System.out.println("Arquivo de dados não encontrado");
         System.exit(1);
         return null;
+    }
+
+    private static void UpdateAllNextIds(Store store) {
+        updateNextSupplierId(store);
+        updateNextProductId(store);
+    }
+
+    private static void updateNextSupplierId(Store store) {
+        int maxId = store.getSuppliers().stream()
+                .mapToInt(Supplier::getId)
+                .max()
+                .orElse(0);
+        Supplier.setNextId(maxId + 1);
+    }
+
+    private static void updateNextProductId(Store store) {
+        int maxId = store.getProducts().stream()
+                .mapToInt(Product::getId)
+                .max()
+                .orElse(0);
+        Product.setNextId(maxId + 1);
     }
 }

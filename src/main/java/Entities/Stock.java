@@ -6,6 +6,10 @@ public class Stock {
     private int quantity;
     private BigDecimal price;
 
+    public Stock() {
+
+    }
+
     public Stock(int quantity, BigDecimal price) {
         setQuantity(quantity);
         setPrice(price);
@@ -34,7 +38,7 @@ public class Stock {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Quantidade: " + quantity + ", Preço: " + price;
     }
 }

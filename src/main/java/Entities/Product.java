@@ -3,7 +3,7 @@ package Entities;
 import Utils.ValidationUtils;
 
 public class Product {
-    private static int nextId = 1;
+    private static int nextId;
     private int id;
     private String name;
     private String description;
@@ -40,6 +40,10 @@ public class Product {
 
     public Stock getStock() {
         return stock;
+    }
+
+    public static void setNextId(int nextId) {
+        Product.nextId = nextId;
     }
 
     public void setName(String name) {
