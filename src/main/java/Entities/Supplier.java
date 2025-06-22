@@ -84,6 +84,6 @@ public class Supplier {
                 "\nDescrição: " + description +
                 "\nTelefone: " + phoneNumber +
                 "\nEmail: " + email +
-                "\n - Endereço\n" + address);
+                "\nEndereço:\n" + address);
     }
 }

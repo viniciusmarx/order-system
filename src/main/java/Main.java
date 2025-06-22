@@ -4,18 +4,18 @@ import Entities.User;
 import Menus.MainMenu;
 import Menus.AdminMenu;
 import Menus.CustomerMenu;
+import Persistence.StorePersistence;
 import Services.AuthService;
+import Services.StoreService;
 
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-
-        Store store = new Store();
-        AuthService authService = new AuthService(store);
-        store.addDBResources();
-
         Scanner sc = new Scanner(System.in);
+        Store store = StorePersistence.load();
+        StoreService storeService = new StoreService(store);
+        AuthService authService = new AuthService(storeService);
 
         int option;
 
@@ -39,7 +39,7 @@ public class Main {
             if (user instanceof Customer c) {
                 CustomerMenu.show(sc, c, store);
             } else {
-                AdminMenu.show(sc, store);
+                AdminMenu.show(sc, storeService);
             }
         }
     }

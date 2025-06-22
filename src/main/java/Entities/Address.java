@@ -14,14 +14,32 @@ public class Address {
     public Address() {
     }
 
-    public Address(String street, int number, String complement, String neighborhood, String zipCode, String city, String state) {
-        this.street = street;
-        this.number = number;
-        this.complement = complement;
-        this.neighborhood = neighborhood;
-        this.zipCode = zipCode;
-        this.city = city;
-        this.state = state;
+    public String getStreet() {
+        return street;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public String getComplement() {
+        return complement;
+    }
+
+    public String getNeighborhood() {
+        return neighborhood;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getState() {
+        return state;
     }
 
     public void setStreet(String street) {
@@ -63,12 +81,9 @@ public class Address {
 
     @Override
     public String toString(){
-        return ("Rua: " + street +
-                "\nNúmero: " + number +
+        return ("Rua: " + street + " Número: " + number +
                 "\nComplemento: " + complement +
-                "\nBairro: " + neighborhood +
-                "\nCEP: " + zipCode +
-                "\nCidade: " + city +
-                "\nEstado: " + state);
+                "\nCEP: " + zipCode + " Bairro: " + neighborhood +
+                "\nCidade: " + city + " Estado: " + state);
     }
 }

@@ -1,0 +1,116 @@
+{
+  "users": [
+    {
+      "name": "vini",
+      "email": "vini@teste.com",
+      "password": "123456"
+    },
+    {
+      "name": "admin",
+      "email": "adm@adm.com",
+      "password": "123123"
+    }
+  ],
+  "customers": [
+    {
+      "name": "Joao Pereira",
+      "email": "jpere@mail.com",
+      "password": "123456",
+      "phoneNumber": "9112225499",
+      "creditCard": "9299321645312543",
+      "address": {
+        "street": "Cruz de Malta",
+        "number": 1205,
+        "complement": "",
+        "neighborhood": "Interior",
+        "zipCode": "93411000",
+        "city": "Araranguá",
+        "state": "PR"
+      },
+      "orders": []
+    }
+  ],
+  "suppliers": [
+    {
+      "name": "FF Frutas",
+      "description": "Vendas diretas de frutas",
+      "phoneNumber": "5399543421",
+      "email": "fff­rutas@supp.com",
+      "address": {
+        "street": "Rua Fantasia",
+        "number": 12323,
+        "complement": "",
+        "neighborhood": "Centro",
+        "zipCode": "12345678",
+        "city": "São Paulo",
+        "state": "SP"
+      },
+      "id": 1
+    },
+    {
+      "name": "Carqueja",
+      "description": "Deposito de verduras e insumos para chá",
+      "phoneNumber": "5399543421",
+      "email": "carq@yahoo.com",
+      "address": {
+        "street": "Rua ilusão",
+        "number": 456,
+        "complement": "Fundos",
+        "neighborhood": "Tijuca",
+        "zipCode": "87654321",
+        "city": "Rio de Janeiro",
+        "state": "RJ"
+      },
+      "id": 2
+    },
+    {
+      "name": "Canoas Yerbas",
+      "description": "Distribuidora de produtos naturais",
+      "phoneNumber": "5399543421",
+      "email": "yerbcanoas@gmail.com",
+      "address": {
+        "street": "Rua do sol",
+        "number": 123,
+        "complement": "Box 13",
+        "neighborhood": "Matias Velho",
+        "zipCode": "12345678",
+        "city": "Canoas",
+        "state": "RS"
+      },
+      "id": 3
+    },
+    {
+      "name": "Cersul",
+      "description": "Comercio de Cereais",
+      "phoneNumber": "5399543421",
+      "email": "cersul@gmail.com",
+      "address": {
+        "street": "Rodovia do sol",
+        "number": 1083,
+        "complement": "Pavilhão 1",
+        "neighborhood": "Centro",
+        "zipCode": "95185000",
+        "city": "Carlos Barbosa",
+        "state": "RS"
+      },
+      "id": 4
+    },
+    {
+      "name": "FF Frutas",
+      "description": "Venda de frutas",
+      "phoneNumber": "5480028922",
+      "email": "teste@gmail.com",
+      "address": {
+        "street": "Adriano Guerra",
+        "number": 123,
+        "complement": "",
+        "neighborhood": "Triangulo",
+        "zipCode": "95185000",
+        "city": "Carlos Barbosa",
+        "state": "RS"
+      },
+      "id": 5
+    }
+  ],
+  "products": []
+}

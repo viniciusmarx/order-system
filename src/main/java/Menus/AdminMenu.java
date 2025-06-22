@@ -5,13 +5,15 @@ import Entities.Stock;
 import Entities.Store;
 import Entities.Supplier;
 import Services.AddressFactory;
+import Services.StoreService;
+import Utils.InputUtils;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class AdminMenu {
 
-    public static void show(Scanner sc, Store store) {
+    public static void show(Scanner sc, StoreService storeService) {
         int option;
         do {
             System.out.println("\n--- MENU ADMIN ---");
@@ -26,15 +28,15 @@ public class AdminMenu {
                 case 0 -> {
                     return;
                 }
-                case 1 -> handleSupplierMenu(sc, store);
-                case 2 -> handleProductMenu(sc, store);
-                case 3 -> handleStockMenu(sc, store);
+                case 1 -> handleSupplierMenu(sc, storeService);
+                case 2 -> handleProductMenu(sc, storeService);
+                case 3 -> storeService.viewAllStock();
                 default -> System.out.println("Opção inválida");
             }
         } while (true);
     }
 
-    private static void handleSupplierMenu(Scanner sc, Store store) {
+    private static void handleSupplierMenu(Scanner sc, StoreService storeService) {
         try {
             int option;
             do {
@@ -45,21 +47,25 @@ public class AdminMenu {
                     }
                     case 1 -> {
                         Supplier supplier = new Supplier();
-                        System.out.print("Nome: ");
-                        supplier.setName(sc.nextLine());
-                        System.out.print("Descrição: ");
-                        supplier.setDescription(sc.nextLine());
-                        System.out.print("Telefone: ");
-                        supplier.setPhoneNumber(sc.nextLine());
-                        System.out.print("Email: ");
-                        supplier.setEmail(sc.nextLine());
+                        InputUtils.promptAndSetString(sc, "Nome", supplier::setName);
+                        InputUtils.promptAndSetString(sc, "Descrição", supplier::setDescription);
+                        InputUtils.promptAndSetString(sc, "Telefone", supplier::setPhoneNumber);
+                        InputUtils.promptAndSetString(sc, "Email", supplier::setEmail);
                         supplier.setAddress(AddressFactory.createAddress(sc));
-                        store.registerSupplier(supplier);
+                        storeService.registerSupplier(supplier);
                     }
                     case 2 -> {
-                        store.listSuppliers();
+                        if (!storeService.hasSuppliers()) {
+                            System.out.println("Não há nenhum fornecedor cadastrado");
+                            continue;
+                        }
+                        storeService.listSuppliers();
                         System.out.println("Digite o código do fornecedor a ser alterado");
-                        Supplier supplier = store.foundSupplier(Integer.parseInt(sc.nextLine()));
+                        Supplier supplier = storeService.findSupplierById(Integer.parseInt(sc.nextLine()));
+                        if (supplier == null) {
+                            System.out.println("Fornecedor não encontrado");
+                            continue;
+                        }
                         do {
                             System.out.println("\n--- Escolha o que você deseja atualizar ---");
                             System.out.println("1. Nome");
@@ -73,22 +79,10 @@ public class AdminMenu {
                                 case 0 -> {
                                     return;
                                 }
-                                case 1 -> {
-                                    System.out.print("Novo nome: ");
-                                    supplier.setName(sc.nextLine());
-                                }
-                                case 2 -> {
-                                    System.out.print("Nova descrição: ");
-                                    supplier.setDescription(sc.nextLine());
-                                }
-                                case 3 -> {
-                                    System.out.print("Novo telefone: ");
-                                    supplier.setPhoneNumber(sc.nextLine());
-                                }
-                                case 4 -> {
-                                    System.out.print("Novo email: ");
-                                    supplier.setEmail(sc.nextLine());
-                                }
+                                case 1 -> InputUtils.promptAndSetString(sc, "Novo nome", supplier::setName);
+                                case 2 -> InputUtils.promptAndSetString(sc, "Nova descrição", supplier::setDescription);
+                                case 3 -> InputUtils.promptAndSetString(sc, "Novo telefone", supplier::setPhoneNumber);
+                                case 4 -> InputUtils.promptAndSetString(sc, "Novo email", supplier::setEmail);
                                 case 5 -> {
                                     System.out.println("Novo endereço: ");
                                     supplier.setAddress(AddressFactory.createAddress(sc));
@@ -97,25 +91,33 @@ public class AdminMenu {
                         } while (true);
                     }
                     case 3 -> {
-                        store.listSuppliers();
+                        storeService.listSuppliers();
                         System.out.print("Digite o código do fornecedor a ser removido: ");
-                        Supplier supplier = store.foundSupplier(Integer.parseInt(sc.nextLine()));
-                        store.removeSupplier(supplier);
+                        Supplier supplier = storeService.findSupplierById(Integer.parseInt(sc.nextLine()));
+                        storeService.removeSupplier(supplier);
                     }
-                    case 4 -> store.listSuppliers();
+                    case 4 -> {
+                        if (!storeService.hasSuppliers()) {
+                            System.out.println("Nenhum fornecedor cadastrado");
+                            continue;
+                        }
+                        storeService.listSuppliers();
+                    }
                     case 5 -> {
                         System.out.print("Digite o nome ou o código do fornecedor: ");
-                        store.showSupplierByName(sc.nextLine());
+                        storeService.showSupplierByName(sc.nextLine());
                     }
                     default -> System.out.println("Opção inválida");
                 }
             } while (true);
+        } catch (NumberFormatException ex) {
+            System.out.println("Insira um numeral");
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    private static void handleProductMenu(Scanner sc, Store store) {
+    private static void handleProductMenu(Scanner sc, StoreService storeService) {
         try {
             int option;
             do {
@@ -125,21 +127,17 @@ public class AdminMenu {
                         return;
                     }
                     case 1 -> {
-                        if (store.getSuppliers().isEmpty()) {
+                        if (!storeService.hasSuppliers()) {
                             System.out.println("Nenhum fornecedor cadastrado. Cadastre um fornecedor primeiro");
                             break;
                         }
                         Product product = new Product();
-                        System.out.print("Nome: ");
-                        product.setName(sc.nextLine());
-
-                        System.out.print("Descrição: ");
-                        product.setDescription(sc.nextLine());
-
-                        store.listSuppliers();
+                        InputUtils.promptAndSetString(sc, "Nome", product::setName);
+                        InputUtils.promptAndSetString(sc, "Descrição", product::setDescription);
+                        storeService.listSuppliers();
                         System.out.print("Escolha um fornecedor: ");
                         int supplierId = Integer.parseInt(sc.nextLine());
-                        Supplier supplier = store.foundSupplier(supplierId);
+                        Supplier supplier = storeService.findSupplierById(supplierId);
                         product.setSupplier(supplier);
 
                         System.out.print("Quantidade em estoque: ");
@@ -147,12 +145,16 @@ public class AdminMenu {
                         System.out.print("Preço unitário: ");
                         BigDecimal price = new BigDecimal(sc.nextLine());
                         product.setStock(new Stock(quantity, price));
-                        store.registerProduct(product);
+                        storeService.registerProduct(product);
                     }
                     case 2 -> {
-                        store.listProducts();
+                        if (!storeService.hasProducts()) {
+                            System.out.println("Não há nenhum produto cadastrado");
+                            continue;
+                        }
+                        storeService.listProducts();
                         System.out.println("Digite o código do produto a ser alterado");
-                        Product product = store.foundProduct(Integer.parseInt(sc.nextLine()));
+                        Product product = storeService.getStore().foundProduct(Integer.parseInt(sc.nextLine()));
                         while (true) {
                             System.out.println("\n--- Escolha o que você deseja atualizar ---");
                             System.out.println("1. Nome");
@@ -165,18 +167,12 @@ public class AdminMenu {
                                 case 0 -> {
                                     return;
                                 }
-                                case 1 -> {
-                                    System.out.print("Novo nome: ");
-                                    product.setName(sc.nextLine());
-                                }
-                                case 2 -> {
-                                    System.out.print("Nova descrição: ");
-                                    product.setDescription(sc.nextLine());
-                                }
+                                case 1 -> InputUtils.promptAndSetString(sc, "Novo nome", product::setName);
+                                case 2 -> InputUtils.promptAndSetString(sc, "Nova descrição", product::setDescription);
                                 case 3 -> {
-                                    store.listSuppliers();
+                                    storeService.listSuppliers();
                                     System.out.print("Escolha um novo fornecedor: ");
-                                    Supplier newSupplier = store.foundSupplier(Integer.parseInt(sc.nextLine()));
+                                    Supplier newSupplier = storeService.findSupplierById(Integer.parseInt(sc.nextLine()));
                                     product.setSupplier(newSupplier);
                                 }
                                 case 4 -> {
@@ -198,7 +194,6 @@ public class AdminMenu {
                                             }
                                             case 2 -> {
                                                 System.out.print("Nova quantidade: ");
-                                                int quantity = Integer.parseInt(sc.nextLine());
                                                 product.getStock().setQuantity(Integer.parseInt(sc.nextLine()));
                                                 System.out.println("Quantidade atualizada com sucesso");
                                             }
@@ -210,41 +205,35 @@ public class AdminMenu {
                         }
                     }
                     case 3 -> {
-                        if (store.getProducts().isEmpty()){
+                        if (!storeService.hasProducts()) {
                             System.out.println("Nenhum produto cadastrado");
-                            break;
+                            continue;
                         }
-                        store.listProducts();
+                        storeService.listProducts();
                         System.out.print("Digite o código do produto a ser removido: ");
-                        Product product = store.foundProduct(Integer.parseInt(sc.nextLine()));
-                        store.removeProduct(product);
+                        Product product = storeService.findProductById(Integer.parseInt(sc.nextLine()));
+                        storeService.removeProduct(product);
                     }
-                    case 4 -> store.listProducts();
+                    case 4 -> {
+                        if (!storeService.hasProducts()) {
+                            System.out.println("Nenhum produto cadastrado");
+                            continue;
+                        }
+                        storeService.listProducts();
+                    }
                     case 5 -> {
                         System.out.print("Digite o nome ou o código do produto: ");
-                        store.showProductByName(sc.nextLine());
+                        storeService.showProductByName(sc.nextLine());
                     }
                     default -> System.out.println("Opção inválida");
                 }
             }
             while (true);
+        } catch (NumberFormatException ex) {
+            System.out.println("Insira um numeral");
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    private static void handleStockMenu(Scanner sc, Store store) {
-        int option;
-        do {
-            option = menuOptions("Estoque", sc);
-            switch (option) {
-                case 0 -> {
-                    return;
-                }
-                case 1 -> store.viewAllStock();
-                default -> System.out.println("Opção inválida");
-            }
-        } while (true);
     }
 
     private static int menuOptions(String name, Scanner sc) {

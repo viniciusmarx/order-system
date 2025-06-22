@@ -8,10 +8,10 @@ import Utils.InputUtils;
 import java.util.Scanner;
 
 public class AuthService {
-    private final Store store;
+    private final StoreService storeService;
 
-    public AuthService(Store store) {
-        this.store = store;
+    public AuthService(StoreService storeService) {
+        this.storeService = storeService;
     }
 
     public User login(Scanner sc) {
@@ -21,7 +21,7 @@ public class AuthService {
         System.out.print("Senha: ");
         String password = sc.nextLine();
 
-        for (User user : store.getUsers()) {
+        for (User user : storeService.getStore().getUsers()) {
             if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
                 System.out.println("Bem-vindo(a), " + user.getName());
                 return user;
@@ -57,11 +57,11 @@ public class AuthService {
         switch (role) {
             case 1 -> {
                 User user = new User();
-                InputUtils.promptAndSet(sc, "Nome", user::setName);
+                InputUtils.promptAndSetString(sc, "Nome", user::setName);
                 while (true) {
                     System.out.print("Email: ");
                     String email = sc.nextLine();
-                    if (store.isEmailRegistered(email)) {
+                    if (storeService.getStore().isEmailRegistered(email)) {
                         System.out.println("Este email já está cadastrado");
                         System.out.println("Digite 1 para tentar outro email ou qualquer tecla para voltar para o login");
                         String choice = sc.nextLine().trim().toLowerCase();
@@ -78,17 +78,17 @@ public class AuthService {
                         System.out.println(e.getMessage());
                     }
                 }
-                InputUtils.promptAndSet(sc, "Senha", user::setPassword);
+                InputUtils.promptAndSetString(sc, "Senha", user::setPassword);
 
-                store.addUser(user);
+                storeService.addUser(user);
             }
             case 2 -> {
                 Customer customer = new Customer();
-                InputUtils.promptAndSet(sc, "Nome", customer::setName);
+                InputUtils.promptAndSetString(sc, "Nome", customer::setName);
                 while (true) {
                     System.out.print("Email: ");
                     String email = sc.nextLine();
-                    if (store.isEmailRegistered(email)) {
+                    if (storeService.getStore().isEmailRegistered(email)) {
                         continue;
                     }
                     try {
@@ -98,12 +98,12 @@ public class AuthService {
                         System.out.println(e.getMessage());
                     }
                 }
-                InputUtils.promptAndSet(sc, "Senha", customer::setPassword);
-                InputUtils.promptAndSet(sc, "Telefone", customer::setPhoneNumber);
-                InputUtils.promptAndSet(sc, "Cartão de crédito", customer::setCreditCard);
+                InputUtils.promptAndSetString(sc, "Senha", customer::setPassword);
+                InputUtils.promptAndSetString(sc, "Telefone", customer::setPhoneNumber);
+                InputUtils.promptAndSetString(sc, "Cartão de crédito", customer::setCreditCard);
                 customer.setAddress(AddressFactory.createAddress(sc));
 
-                store.addCustomer(customer);
+                storeService.addCustomer(customer);
             }
         }
         System.out.println("Conta de " + (role == 1 ? "admin" : "cliente") + " criada com sucesso!");
