@@ -66,9 +66,9 @@ public class AuthService {
                         System.out.println("Digite 1 para tentar outro email ou qualquer tecla para voltar para o login");
                         String choice = sc.nextLine().trim().toLowerCase();
                         if (choice.equals("1")) {
-                            return;
-                        } else {
                             continue;
+                        } else {
+                            return;
                         }
                     }
                     try {
@@ -89,7 +89,14 @@ public class AuthService {
                     System.out.print("Email: ");
                     String email = sc.nextLine();
                     if (storeService.getStore().isEmailRegistered(email)) {
-                        continue;
+                        System.out.println("Este email já está cadastrado");
+                        System.out.println("Digite 1 para tentar outro email ou qualquer tecla para voltar para o login");
+                        String choice = sc.nextLine().trim().toLowerCase();
+                        if (choice.equals("1")) {
+                            continue;
+                        } else {
+                            return;
+                        }
                     }
                     try {
                         customer.setEmail(email);

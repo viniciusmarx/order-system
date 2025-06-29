@@ -1,15 +1,14 @@
 package Entities;
 
 import Utils.ValidationUtils;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Customer extends User {
     private String phoneNumber;
     private String creditCard;
     private Address address;
-    private List<Order> orders = new ArrayList<>();
+    @JsonIgnore
+    private Cart cart = new Cart();
 
     public Customer() {
     }
@@ -34,6 +33,10 @@ public class Customer extends User {
         return address;
     }
 
+    public Cart getCart() {
+        return cart;
+    }
+
     public void setPhoneNumber(String phoneNumber) {
         ValidationUtils.validateRequiredString(phoneNumber, "Telefone");
         if (!phoneNumber.matches("\\d{10,11}")) {
@@ -55,14 +58,6 @@ public class Customer extends User {
             throw new IllegalArgumentException("Endereço não pode ser nulo");
         }
         this.address = address;
-    }
-
-    public void addOrder(Order order) {
-        orders.add(order);
-    }
-
-    public List<Order> getOrders() {
-        return orders;
     }
 
     @Override

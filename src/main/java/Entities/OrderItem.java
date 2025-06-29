@@ -1,31 +1,43 @@
 package Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.math.BigDecimal;
 
 public class OrderItem {
+    private int productId;
     private String productName;
-    private BigDecimal unitPrice;
     private int quantity;
+    private BigDecimal unitPrice;
 
-    public OrderItem(Product product, int quantity){
+    public OrderItem() {
+    }
+
+    public OrderItem(Product product, int quantity, BigDecimal unitPrice) {
+        this.productId = product.getId();
         this.productName = product.getName();
-        this.unitPrice = product.getStock().getPrice();
         this.quantity = quantity;
+        this.unitPrice = unitPrice;
     }
 
-    public BigDecimal getTotalPrice(){
-        return unitPrice.multiply(BigDecimal.valueOf(quantity));
+    public int getProductId() {
+        return productId;
     }
 
-    public String getProductName(){
+    public String getProductName() {
         return productName;
     }
 
-    public BigDecimal getUnitPrice(){
+    @JsonIgnore
+    public BigDecimal getTotalPrice() {
+        return unitPrice.multiply(BigDecimal.valueOf(quantity));
+    }
+
+    public BigDecimal getUnitPrice() {
         return unitPrice;
     }
 
-    public int getQuantity(){
+    public int getQuantity() {
         return quantity;
     }
 }

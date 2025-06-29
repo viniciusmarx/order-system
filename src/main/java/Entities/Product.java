@@ -1,6 +1,9 @@
 package Entities;
 
 import Utils.ValidationUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.math.BigDecimal;
 
 public class Product {
     private static int nextId;
@@ -40,6 +43,16 @@ public class Product {
 
     public Stock getStock() {
         return stock;
+    }
+
+    @JsonIgnore
+    public int getAvailableStock() {
+        return stock.getQuantity();
+    }
+
+    @JsonIgnore
+    public BigDecimal getUnitPrice() {
+        return stock.getPrice();
     }
 
     public static void setNextId(int nextId) {

@@ -1,40 +1,45 @@
 package Entities;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
-    private int orderNumber;
+    private int number;
     private LocalDate orderDate;
     private LocalDate deliveryDate;
     private OrderStatus status;
     private Customer customer;
     private List<OrderItem> items = new ArrayList<>();
+    private BigDecimal totalOrderValue;
+    private static final BigDecimal ICMS = new BigDecimal("0.17");
 
-    public Order(int orderNumber, Customer customer) {
-        this.orderNumber = orderNumber;
+    public Order() {
+    }
+
+    public Order(int number, Customer customer, List<OrderItem> items, BigDecimal totalOrderValue) {
+        this.number = number;
         this.customer = customer;
+        this.items = items;
+        this.totalOrderValue = totalOrderValue;
         this.orderDate = LocalDate.now();
-        this.deliveryDate = orderDate.plusDays(10);
         this.status = OrderStatus.PENDING;
+        this.deliveryDate = null;
     }
 
-    public void addItem(OrderItem item) {
-        items.add(item);
+    public static BigDecimal calculateTotalValueWithIcms(List<OrderItem> items) {
+        BigDecimal subtotal = items.stream()
+                .map(OrderItem::getTotalPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal icms = subtotal.multiply(ICMS);
+        return subtotal.add(icms).setScale(2, RoundingMode.HALF_UP);
     }
 
-    public BigDecimal getTotalOrderPrice() {
-        BigDecimal total = BigDecimal.ZERO;
-        for (OrderItem item : items) {
-            total = total.add(item.getTotalPrice());
-        }
-        return total;
-    }
-
-    public int getOrderNumber() {
-        return orderNumber;
+    public int getNumber() {
+        return number;
     }
 
     public LocalDate getOrderDate() {
@@ -61,4 +66,11 @@ public class Order {
         this.status = status;
     }
 
+    public void setDeliveryDate(LocalDate deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+
+    public BigDecimal getTotalOrderValue() {
+        return totalOrderValue;
+    }
 }

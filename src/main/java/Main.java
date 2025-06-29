@@ -5,7 +5,9 @@ import Menus.MainMenu;
 import Menus.AdminMenu;
 import Menus.CustomerMenu;
 import Persistence.StorePersistence;
+import Repository.StoreRepository;
 import Services.AuthService;
+import Services.OrderService;
 import Services.StoreService;
 
 import java.util.Scanner;
@@ -14,14 +16,17 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Store store = StorePersistence.load();
-        StoreService storeService = new StoreService(store);
+        StoreRepository repository = new StoreRepository(store);
+        StoreService storeService = new StoreService(repository);
+        OrderService orderService = new OrderService(repository);
         AuthService authService = new AuthService(storeService);
 
         int option;
 
         while (true) {
             User user = null;
-            do {
+
+            while (user == null) {
                 option = MainMenu.show(sc);
 
                 switch (option) {
@@ -34,12 +39,12 @@ public class Main {
                     }
                     default -> System.out.println("Opção inválida");
                 }
-            } while (user == null);
+            }
 
             if (user instanceof Customer c) {
-                CustomerMenu.show(sc, c, store);
+                CustomerMenu.show(sc, c, storeService, orderService);
             } else {
-                AdminMenu.show(sc, storeService);
+                AdminMenu.show(sc, storeService, orderService);
             }
         }
     }

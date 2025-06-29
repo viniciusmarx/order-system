@@ -1,129 +1,427 @@
 {
-  "users" : [ {
-    "name" : "vini",
-    "email" : "vini@teste.com",
-    "password" : "123456"
-  }, {
-    "name" : "admin",
-    "email" : "adm@adm.com",
-    "password" : "123123"
-  } ],
-  "customers" : [ {
-    "name" : "Joao Pereira",
-    "email" : "jpere@mail.com",
-    "password" : "123456",
-    "phoneNumber" : "9112225499",
-    "creditCard" : "9299321645312543",
-    "address" : {
-      "street" : "Cruz de Malta",
-      "number" : 1205,
-      "complement" : "",
-      "neighborhood" : "Interior",
-      "zipCode" : "93411000",
-      "city" : "Araranguá",
-      "state" : "PR"
+  "users": [
+    {
+      "type": "user",
+      "name": "vini",
+      "email": "vini@teste.com",
+      "password": "123456"
     },
-    "orders" : [ ]
-  } ],
-  "suppliers" : [ {
-    "id" : 1,
-    "name" : "FF Frutas",
-    "description" : "Vendas diretas de frutas",
-    "phoneNumber" : "5399543421",
-    "email" : "fff­rutas@supp.com",
-    "address" : {
-      "street" : "Rua Fantasia",
-      "number" : 12323,
-      "complement" : "",
-      "neighborhood" : "Centro",
-      "zipCode" : "12345678",
-      "city" : "São Paulo",
-      "state" : "SP"
-    }
-  }, {
-    "id" : 2,
-    "name" : "Carqueja",
-    "description" : "Deposito de verduras e insumos para chá",
-    "phoneNumber" : "5399543421",
-    "email" : "carq@yahoo.com",
-    "address" : {
-      "street" : "Rua ilusão",
-      "number" : 456,
-      "complement" : "Fundos",
-      "neighborhood" : "Tijuca",
-      "zipCode" : "87654321",
-      "city" : "Rio de Janeiro",
-      "state" : "RJ"
-    }
-  }, {
-    "id" : 3,
-    "name" : "Canoas Yerbas",
-    "description" : "Distribuidora de produtos naturais",
-    "phoneNumber" : "5399543421",
-    "email" : "yerbcanoas@gmail.com",
-    "address" : {
-      "street" : "Rua do sol",
-      "number" : 123,
-      "complement" : "Box 13",
-      "neighborhood" : "Matias Velho",
-      "zipCode" : "12345678",
-      "city" : "Canoas",
-      "state" : "RS"
-    }
-  }, {
-    "id" : 4,
-    "name" : "Cersul",
-    "description" : "Comercio de Cereais",
-    "phoneNumber" : "5399543421",
-    "email" : "cersul@gmail.com",
-    "address" : {
-      "street" : "Rodovia do sol",
-      "number" : 1083,
-      "complement" : "Pavilhão 1",
-      "neighborhood" : "Centro",
-      "zipCode" : "95185000",
-      "city" : "Carlos Barbosa",
-      "state" : "RS"
-    }
-  }, {
-    "id" : 6,
-    "name" : "Tramontina cutelaria",
-    "description" : "Vendas de facas e panelas",
-    "phoneNumber" : "5480028922",
-    "email" : "tramontina@gmail.com",
-    "address" : {
-      "street" : "Av Ivo Tramontina",
-      "number" : 1024,
-      "complement" : "",
-      "neighborhood" : "Triangulo",
-      "zipCode" : "95185000",
-      "city" : "Carlos Barbosa",
-      "state" : "RS"
-    }
-  } ],
-  "products" : [ {
-    "id" : 3,
-    "name" : "Faca",
-    "description" : "Faca para churrasco",
-    "supplier" : {
-      "id" : 6,
-      "name" : "Tramontina cutelaria",
-      "description" : "Vendas de facas e panelas",
-      "phoneNumber" : "5480028922",
-      "email" : "tramontina@gmail.com",
-      "address" : {
-        "street" : "Av Ivo Tramontina",
-        "number" : 1024,
-        "complement" : "",
-        "neighborhood" : "Triangulo",
-        "zipCode" : "95185000",
-        "city" : "Carlos Barbosa",
-        "state" : "RS"
+    {
+      "type": "user",
+      "name": "admin",
+      "email": "adm@adm.com",
+      "password": "123123"
+    },
+    {
+      "type": "customer",
+      "name": "vini",
+      "email": "viniteste@teste.com",
+      "password": "123123",
+      "phoneNumber": "5480028922",
+      "creditCard": "1234567890123456",
+      "address": {
+        "street": "teste",
+        "number": 11,
+        "complement": "casa",
+        "neighborhood": "teste",
+        "zipCode": "12345678",
+        "city": "teste",
+        "state": "teste"
       }
     },
-    "stock" : {
-      "quantity" : 100,
-      "price" : 150
+    {
+      "type": "customer",
+      "name": "teste",
+      "email": "teste@teste.com",
+      "password": "123123",
+      "phoneNumber": "5480028922",
+      "creditCard": "1234567891234567",
+      "address": {
+        "street": "teste",
+        "number": 213,
+        "complement": "ap",
+        "neighborhood": "teste",
+        "zipCode": "12345678",
+        "city": "teste",
+        "state": "teste"
+      }
     }
-  } ]
+  ],
+  "customers": [
+    {
+      "type": "customer",
+      "name": "Joao Pereira",
+      "email": "jpere@mail.com",
+      "password": "123456",
+      "phoneNumber": "9112225499",
+      "creditCard": "9299321645312543",
+      "address": {
+        "street": "Cruz de Malta",
+        "number": 1205,
+        "complement": "",
+        "neighborhood": "Interior",
+        "zipCode": "93411000",
+        "city": "Araranguá",
+        "state": "PR"
+      }
+    },
+    {
+      "type": "customer",
+      "name": "vini",
+      "email": "viniteste@teste.com",
+      "password": "123123",
+      "phoneNumber": "5480028922",
+      "creditCard": "1234567890123456",
+      "address": {
+        "street": "teste",
+        "number": 11,
+        "complement": "casa",
+        "neighborhood": "teste",
+        "zipCode": "12345678",
+        "city": "teste",
+        "state": "teste"
+      }
+    },
+    {
+      "type": "customer",
+      "name": "teste",
+      "email": "teste@teste.com",
+      "password": "123123",
+      "phoneNumber": "5480028922",
+      "creditCard": "1234567891234567",
+      "address": {
+        "street": "teste",
+        "number": 213,
+        "complement": "ap",
+        "neighborhood": "teste",
+        "zipCode": "12345678",
+        "city": "teste",
+        "state": "teste"
+      }
+    }
+  ],
+  "suppliers": [
+    {
+      "id": 1,
+      "name": "FF Frutas",
+      "description": "Vendas diretas de frutas",
+      "phoneNumber": "5399543421",
+      "email": "fff­rutas@supp.com",
+      "address": {
+        "street": "Rua Fantasia",
+        "number": 12323,
+        "complement": "",
+        "neighborhood": "Centro",
+        "zipCode": "12345678",
+        "city": "São Paulo",
+        "state": "SP"
+      }
+    },
+    {
+      "id": 2,
+      "name": "Carqueja",
+      "description": "Deposito de verduras e insumos para chá",
+      "phoneNumber": "5399543421",
+      "email": "carq@yahoo.com",
+      "address": {
+        "street": "Rua ilusão",
+        "number": 456,
+        "complement": "Fundos",
+        "neighborhood": "Tijuca",
+        "zipCode": "87654321",
+        "city": "Rio de Janeiro",
+        "state": "RJ"
+      }
+    },
+    {
+      "id": 3,
+      "name": "Canoas Yerbas",
+      "description": "Distribuidora de produtos naturais",
+      "phoneNumber": "5399543421",
+      "email": "yerbcanoas@gmail.com",
+      "address": {
+        "street": "Rua do sol",
+        "number": 123,
+        "complement": "Box 13",
+        "neighborhood": "Matias Velho",
+        "zipCode": "12345678",
+        "city": "Canoas",
+        "state": "RS"
+      }
+    },
+    {
+      "id": 4,
+      "name": "Cersul",
+      "description": "Comercio de Cereais",
+      "phoneNumber": "5399543421",
+      "email": "cersul@gmail.com",
+      "address": {
+        "street": "Rodovia do sol",
+        "number": 1083,
+        "complement": "Pavilhão 1",
+        "neighborhood": "Centro",
+        "zipCode": "95185000",
+        "city": "Carlos Barbosa",
+        "state": "RS"
+      }
+    },
+    {
+      "id": 6,
+      "name": "Tramontina cutelaria",
+      "description": "Vendas de facas e panelas",
+      "phoneNumber": "5480028922",
+      "email": "tramontina@gmail.com",
+      "address": {
+        "street": "Av Ivo Tramontina",
+        "number": 1024,
+        "complement": "",
+        "neighborhood": "Triangulo",
+        "zipCode": "95185000",
+        "city": "Carlos Barbosa",
+        "state": "RS"
+      }
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "Panela de ferro",
+      "description": "Panela resistente para fogão a lenha",
+      "supplier": {
+        "id": 6,
+        "name": "Tramontina cutelaria",
+        "description": "Vendas de facas e panelas",
+        "phoneNumber": "5480028922",
+        "email": "tramontina@gmail.com",
+        "address": {
+          "street": "Av Ivo Tramontina",
+          "number": 1024,
+          "complement": "",
+          "neighborhood": "Triangulo",
+          "zipCode": "95185000",
+          "city": "Carlos Barbosa",
+          "state": "RS"
+        }
+      },
+      "stock": {
+        "quantity": 50,
+        "price": 120.0
+      }
+    },
+    {
+      "id": 2,
+      "name": "Morango",
+      "description": "Morango orgânico",
+      "supplier": {
+        "id": 1,
+        "name": "FF Frutas",
+        "description": "Vendas diretas de frutas",
+        "phoneNumber": "5399543421",
+        "email": "fff­rutas@supp.com",
+        "address": {
+          "street": "Rua Fantasia",
+          "number": 12323,
+          "complement": "",
+          "neighborhood": "Centro",
+          "zipCode": "12345678",
+          "city": "São Paulo",
+          "state": "SP"
+        }
+      },
+      "stock": {
+        "quantity": 35,
+        "price": 6.5
+      }
+    },
+    {
+      "id": 3,
+      "name": "Faca",
+      "description": "Faca para churrasco",
+      "supplier": {
+        "id": 6,
+        "name": "Tramontina cutelaria",
+        "description": "Vendas de facas e panelas",
+        "phoneNumber": "5480028922",
+        "email": "tramontina@gmail.com",
+        "address": {
+          "street": "Av Ivo Tramontina",
+          "number": 1024,
+          "complement": "",
+          "neighborhood": "Triangulo",
+          "zipCode": "95185000",
+          "city": "Carlos Barbosa",
+          "state": "RS"
+        }
+      },
+      "stock": {
+        "quantity": 93,
+        "price": 150
+      }
+    },
+    {
+      "id": 4,
+      "name": "Batata",
+      "description": "Batata doce",
+      "supplier": {
+        "id": 3,
+        "name": "Canoas Yerbas",
+        "description": "Distribuidora de produtos naturais",
+        "phoneNumber": "5399543421",
+        "email": "yerbcanoas@gmail.com",
+        "address": {
+          "street": "Rua do sol",
+          "number": 123,
+          "complement": "Box 13",
+          "neighborhood": "Matias Velho",
+          "zipCode": "12345678",
+          "city": "Canoas",
+          "state": "RS"
+        }
+      },
+      "stock": {
+        "quantity": 48,
+        "price": 4
+      }
+    },
+    {
+      "id": 5,
+      "name": "Alface",
+      "description": "Alface americano",
+      "supplier": {
+        "id": 1,
+        "name": "FF Frutas",
+        "description": "Vendas diretas de frutas",
+        "phoneNumber": "5399543421",
+        "email": "fff­rutas@supp.com",
+        "address": {
+          "street": "Rua Fantasia",
+          "number": 12323,
+          "complement": "",
+          "neighborhood": "Centro",
+          "zipCode": "12345678",
+          "city": "São Paulo",
+          "state": "SP"
+        }
+      },
+      "stock": {
+        "quantity": 0,
+        "price": 2.5
+      }
+    },
+    {
+      "id": 6,
+      "name": "Cenoura",
+      "description": "Cenoura orgânica",
+      "supplier": {
+        "id": 2,
+        "name": "Carqueja",
+        "description": "Deposito de verduras e insumos para chá",
+        "phoneNumber": "5399543421",
+        "email": "carq@yahoo.com",
+        "address": {
+          "street": "Rua ilusão",
+          "number": 456,
+          "complement": "Fundos",
+          "neighborhood": "Tijuca",
+          "zipCode": "87654321",
+          "city": "Rio de Janeiro",
+          "state": "RJ"
+        }
+      },
+      "stock": {
+        "quantity": 20,
+        "price": 1.5
+      }
+    },
+    {
+      "id": 7,
+      "name": "Maçã",
+      "description": "Maçã verde",
+      "supplier": {
+        "id": 2,
+        "name": "Carqueja",
+        "description": "Deposito de verduras e insumos para chá",
+        "phoneNumber": "5399543421",
+        "email": "carq@yahoo.com",
+        "address": {
+          "street": "Rua ilusão",
+          "number": 456,
+          "complement": "Fundos",
+          "neighborhood": "Tijuca",
+          "zipCode": "87654321",
+          "city": "Rio de Janeiro",
+          "state": "RJ"
+        }
+      },
+      "stock": {
+        "quantity": 15,
+        "price": 3.0
+      }
+    },
+    {
+      "id": 8,
+      "name": "Laranja",
+      "description": "Laranja Lima",
+      "supplier": {
+        "id": 3,
+        "name": "Canoas Yerbas",
+        "description": "Distribuidora de produtos naturais",
+        "phoneNumber": "5399543421",
+        "email": "yerbcanoas@gmail.com",
+        "address": {
+          "street": "Rua do sol",
+          "number": 123,
+          "complement": "Box 13",
+          "neighborhood": "Matias Velho",
+          "zipCode": "12345678",
+          "city": "Canoas",
+          "state": "RS"
+        }
+      },
+      "stock": {
+        "quantity": 24,
+        "price": 2.0
+      }
+    }
+  ],
+  "orders": [
+    {
+      "number": 1,
+      "orderDate": "2025-06-29",
+      "deliveryDate": null,
+      "status": "PENDING",
+      "customer": {
+        "type": "customer",
+        "name": "teste",
+        "email": "teste@teste.com",
+        "password": "123123",
+        "phoneNumber": "5480028922",
+        "creditCard": "1234567891234567",
+        "address": {
+          "street": "teste",
+          "number": 213,
+          "complement": "ap",
+          "neighborhood": "teste",
+          "zipCode": "12345678",
+          "city": "teste",
+          "state": "teste"
+        }
+      },
+      "items": [
+        {
+          "productId": 3,
+          "productName": "Faca",
+          "quantity": 2,
+          "unitPrice": 150
+        },
+        {
+          "productId": 8,
+          "productName": "Laranja",
+          "quantity": 1,
+          "unitPrice": 2.0
+        }
+      ],
+      "totalOrderValue": 353.34
+    }
+  ]
 }

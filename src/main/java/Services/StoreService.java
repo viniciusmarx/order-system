@@ -2,133 +2,134 @@ package Services;
 
 import Entities.*;
 import Persistence.StorePersistence;
+import Repository.StoreRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
 public class StoreService {
-    private final Store store;
+    private final StoreRepository storeRepository;
 
-    public StoreService(Store store) {
-        this.store = store;
+    public StoreService(StoreRepository storeRepository) {
+        this.storeRepository = storeRepository;
     }
 
     public Store getStore() {
-        return store;
+        return storeRepository.getStore();
     }
 
     public void save() {
-        StorePersistence.save(store);
+        storeRepository.save();
     }
 
     public void registerSupplier(Supplier supplier) {
-        store.getSuppliers().add(supplier);
+        storeRepository.getStore().getSuppliers().add(supplier);
         System.out.println("Fornecedor cadastrado com sucesso");
-        save();
+        storeRepository.save();
     }
 
     public void removeSupplier(Supplier supplier) {
-        if (store.canDeleteSupplier(supplier)) {
-            store.getSuppliers().remove(supplier);
+        if (storeRepository.getStore().canDeleteSupplier(supplier)) {
+            storeRepository.getStore().getSuppliers().remove(supplier);
             System.out.println("Fornecedor removido com sucesso");
-            save();
+            storeRepository.save();
         }
     }
 
     public boolean hasSuppliers() {
-        return !store.getSuppliers().isEmpty();
+        return !storeRepository.getStore().getSuppliers().isEmpty();
     }
 
-    public Supplier findSupplierById(int id) {
-        return store.foundSupplier(id);
+    public Supplier getSupplierById(int id) {
+        return storeRepository.getStore().foundSupplier(id);
     }
 
     public void registerProduct(Product product) {
-        store.getProducts().add(product);
+        storeRepository.getStore().getProducts().add(product);
         System.out.println("Produto cadastrado com sucesso");
-        save();
+        storeRepository.save();
     }
 
     public void removeProduct(Product product) {
-        store.getProducts().remove(product);
+        storeRepository.getStore().getProducts().remove(product);
         System.out.println("Produto removido com sucesso");
-        save();
+        storeRepository.save();
     }
 
     public boolean hasProducts() {
-        return !store.getProducts().isEmpty();
+        return !storeRepository.getStore().getProducts().isEmpty();
     }
 
-    public Product findProductById(int id) {
-        return store.foundProduct(id);
+    public Product getProductById(int id) {
+        return storeRepository.getStore().foundProduct(id);
     }
 
     public void addUser(User user) {
-        store.getUsers().add(user);
-        save();
+        storeRepository.getStore().getUsers().add(user);
+        storeRepository.save();
     }
 
     public void addCustomer(Customer customer) {
-        store.getUsers().add(customer);
-        store.getCustomers().add(customer);
-        save();
+        storeRepository.getStore().getUsers().add(customer);
+        storeRepository.getStore().getCustomers().add(customer);
+        storeRepository.save();
     }
 
     public void listProducts() {
-        System.out.println("--- Lista de Produtos ---");
-        for (Product product : store.getProducts()) {
-            System.out.println(product);
+        System.out.println("\n--- Lista de Produtos ---");
+        for (Product product : storeRepository.getStore().getProducts()) {
+            System.out.println(product + "\n");
         }
     }
 
     public void listSuppliers() {
-        System.out.println("--- Lista de Fornecedores ---");
-        for (Supplier s : store.getSuppliers()) {
-            System.out.println(s.getId() + " - " + s.getName() + " - " + s.getDescription());
+        System.out.println("\n--- Lista de Fornecedores ---");
+        for (Supplier s : storeRepository.getStore().getSuppliers()) {
+            System.out.println(s.getId() + " - " + s.getName() + " - " + s.getDescription() + "\n");
         }
     }
 
     public void viewAllStock() {
         System.out.println("--- Estoque Geral ---");
 
-        if (store.getProducts().isEmpty()) {
+        if (storeRepository.getStore().getProducts().isEmpty()) {
             System.out.println("Nenhum produto cadastrado");
             return;
         }
 
-        for (Product p : store.getProducts()) {
+        for (Product p : storeRepository.getStore().getProducts()) {
             System.out.printf("Id: %d | Nome: %s | Preço: R$%.2f | Quantidade: %d\n",
                     p.getId(), p.getName(), p.getStock().getPrice(), p.getStock().getQuantity());
         }
     }
 
-    public void showProductByName(String search) {
-        showByName(search, store.getProducts(), Product::getName, Product::getId, "produto");
+    public List<Supplier> searchSuppliers(String search) {
+        return searchItems(search, storeRepository.getStore().getSuppliers(), Supplier::getId, Supplier::getName, Supplier::getDescription);
     }
 
-    public void showSupplierByName(String search) {
-        showByName(search, store.getSuppliers(), Supplier::getName, Supplier::getId, "fornecedor");
+    public List<Product> searchProducts(String search) {
+        return searchItems(search, storeRepository.getStore().getProducts(), Product::getId, Product::getName, Product::getDescription);
     }
 
-    private <T> void showByName(String search, List<T> list, Function<T, String> nameExtractor, Function<T, Integer> idExtractor, String entityType) {
-        boolean found = false;
+    private <T> List<T> searchItems(String search, List<T> list, Function<T, Integer> idExtractor, Function<T, String> nameExtractor, Function<T, String> descriptionExtractor) {
+        List<T> results = new ArrayList<>();
+
+        for (T item : list) {
+            if (String.valueOf(idExtractor.apply(item)).equals(search)) {
+                results.add(item);
+                return results;
+            }
+        }
+
         for (T item : list) {
             String name = nameExtractor.apply(item);
-            if (name != null && name.toLowerCase().contains(search.toLowerCase())) {
-                System.out.println("\n" + item);
-                found = true;
-            }
+            String description = descriptionExtractor.apply(item);
 
-            String id = idExtractor.apply(item).toString();
-            if (id.equals(search)) {
-                System.out.println("\n" + item);
-                found = true;
-                break;
+            if (name.toLowerCase().contains(search.toLowerCase()) || description.toLowerCase().contains(search.toLowerCase())) {
+                results.add(item);
             }
         }
-        if (!found) {
-            System.out.println(entityType + " não encontrado");
-        }
+        return results;
     }
-
 }

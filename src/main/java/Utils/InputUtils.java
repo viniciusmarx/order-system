@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 
 public class InputUtils {
 
-    public static void promptAndSetString(Scanner sc, String label, Consumer<String> setter){
+    public static void promptAndSetString(Scanner sc, String label, Consumer<String> setter) {
         while (true) {
             try {
                 System.out.print(label + ": ");
@@ -18,13 +18,15 @@ public class InputUtils {
         }
     }
 
-    public static void promptAndSetInt(Scanner sc, String label, Consumer<Integer> setter){
+    public static void promptAndSetInt(Scanner sc, String label, Consumer<Integer> setter) {
         while (true) {
             try {
                 System.out.print(label + ": ");
                 int input = Integer.parseInt(sc.nextLine());
                 setter.accept(input);
                 break;
+            } catch (NumberFormatException e) {
+                System.out.println();
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }

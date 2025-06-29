@@ -1,7 +1,18 @@
 package Entities;
 
 import Utils.ValidationUtils;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Customer.class, name = "customer"),
+        @JsonSubTypes.Type(value = User.class, name = "user")
+})
 public class User {
     private String name;
     private String email;
