@@ -267,15 +267,21 @@ public class AdminMenu {
             return;
         }
 
-        System.out.println("Consultar por:");
-        System.out.println("1. Número do pedido");
-        System.out.println("2. Data de realização");
-        String option = sc.nextLine();
+        while (true) {
+            System.out.println("\nConsultar por:");
+            System.out.println("1. Número do pedido");
+            System.out.println("2. Data de realização");
+            System.out.println("3. Voltar");
+            String option = sc.nextLine();
 
-        switch (option) {
-            case "1" -> handleOrdersByNumber(sc, orders, orderService);
-            case "2" -> handleOrdersByDate(sc, orders);
-            default -> System.out.println("Opção inválida");
+            switch (option) {
+                case "1" -> handleOrdersByNumber(sc, orders, orderService);
+                case "2" -> handleOrdersByDate(sc, orders);
+                case "3" -> {
+                    return;
+                }
+                default -> System.out.println("Opção inválida");
+            }
         }
     }
 
@@ -294,7 +300,11 @@ public class AdminMenu {
 
             printOrderDetails(selectedOrder);
 
-            System.out.println("Alterar status do pedido:");
+            if (selectedOrder.getStatus() != OrderStatus.PENDING) {
+                return;
+            }
+
+            System.out.println("\nAlterar status do pedido:");
             System.out.println("1. Enviar pedido");
             System.out.println("2. Cancelar pedido");
             System.out.println("3. Voltar");
